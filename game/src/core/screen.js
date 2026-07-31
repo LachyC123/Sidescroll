@@ -1,0 +1,83 @@
+// The 384x216 internal canvas and its integer-scaled presentation.
+// Section 8: nearest-neighbour only, integer scaling preferred, never a
+// non-uniform stretch. When the window aspect does not divide evenly we
+// letterbox rather than distort the pixel grid.
+
+export const W = 384;
+export const H = 216;
+
+export const canvas = document.getElementById('c');
+export const ctx = canvas.getContext('2d', { alpha: false });
+ctx.imageSmoothingEnabled = false;
+
+let scale = 1;
+export function getScale() { return scale; }
+
+function fit() {
+  const wrap = document.getElementById('wrap');
+  const aw = wrap.clientWidth, ah = wrap.clientHeight;
+  // largest integer scale that fits; fall back to a fractional scale only on
+  // displays too small for 1:1, where letterboxing alone would leave nothing.
+  let s = Math.floor(Math.min(aw / W, ah / H));
+  if (s < 1) s = Math.min(aw / W, ah / H);
+  scale = s;
+  canvas.style.width = Math.round(W * s) + 'px';
+  canvas.style.height = Math.round(H * s) + 'px';
+}
+
+addEventListener('resize', fit);
+fit();
+
+/** Convert a client-space point (pointer/touch) into internal canvas pixels. */
+export function toCanvas(clientX, clientY) {
+  const r = canvas.getBoundingClientRect();
+  return { x: (clientX - r.left) / (r.width / W), y: (clientY - r.top) / (r.height / H) };
+}
+
+export function clear(colour = '#07060b') {
+  ctx.fillStyle = colour;
+  ctx.fillRect(0, 0, W, H);
+}
+
+// ---------------------------------------------------------------- screen fx
+// Shake and flash live here so accessibility settings can scale them in one
+// place (Section 8: players can reduce or disable shake, flash and hit-stop
+// independently).
+let shakeAmp = 0, shakeUntil = 0, shakeSeed = 0;
+let flashCol = null, flashUntil = 0, flashDur = 1;
+export const fxScale = { shake: 1, flash: 1 };
+
+export function shake(px, ms) {
+  const amp = px * fxScale.shake;
+  if (amp <= 0) return;
+  const now = performance.now();
+  // a bigger shake overrides a smaller one still running, it never stacks
+  if (amp >= shakeAmp || now > shakeUntil) { shakeAmp = amp; shakeSeed = Math.random() * 999; }
+  shakeUntil = Math.max(shakeUntil, now + ms);
+}
+
+export function flash(colour, ms) {
+  if (fxScale.flash <= 0) return;
+  flashCol = colour; flashDur = ms; flashUntil = performance.now() + ms;
+}
+
+/** Camera offset contributed by shake, in whole pixels. */
+export function shakeOffset() {
+  const now = performance.now();
+  if (now > shakeUntil || shakeAmp <= 0) { shakeAmp = 0; return { x: 0, y: 0 }; }
+  const left = (shakeUntil - now);
+  const decay = Math.min(1, left / 90);
+  const a = shakeAmp * decay;
+  const t = now * 0.06 + shakeSeed;
+  return { x: Math.round(Math.sin(t * 1.7) * a), y: Math.round(Math.cos(t * 2.3) * a * 0.6) };
+}
+
+export function drawFlash() {
+  const now = performance.now();
+  if (now > flashUntil || !flashCol) return;
+  const a = ((flashUntil - now) / flashDur) * 0.55 * fxScale.flash;
+  ctx.globalAlpha = Math.max(0, Math.min(1, a));
+  ctx.fillStyle = flashCol;
+  ctx.fillRect(0, 0, W, H);
+  ctx.globalAlpha = 1;
+}

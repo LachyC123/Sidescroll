@@ -211,6 +211,16 @@ HUD = ("high_forest", "HUD/Base-01.png")
 
 # Findings from actually opening the ZIPs, recorded into docs/asset_issues.md.
 PACK_NOTES = {
+    "high_forest": [
+        "player: the master plan's Section 1 and Section 5 both assume the hero "
+        "ships with *two* authored attacks. The local pack has one: "
+        "Character/Attack-01. Attack 2 is therefore implemented as a committed "
+        "timing-and-feedback variant of the same clip (slower anticipation, "
+        "longer recovery, stronger knockback, crest colour and sound), which is "
+        "what Section 5 asks for when it says depth comes from timing, spacing "
+        "and cancel windows rather than an unanimated combo tree. A dedicated "
+        "second attack sheet is still required before release.",
+    ],
     "mine": [
         "biome `mine`: confirmed the master plan's Appendix A warning, and it goes "
         "further than the storefront text. Lonely Mine's `Assets/Tiles.png` contains "

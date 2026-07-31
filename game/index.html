@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>CROWNLESS</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%230b0910'/><rect x='6' y='3' width='4' height='7' fill='%23c8a24a'/><rect x='4' y='10' width='8' height='2' fill='%23c8a24a'/></svg>">
+<style>
+  html,body{margin:0;height:100%;background:#07060b;overflow:hidden;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#cdc6bb}
+  #wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+  canvas{image-rendering:pixelated;image-rendering:crisp-edges;display:block;
+    background:#07060b;touch-action:none}
+  #boot{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+    flex-direction:column;gap:14px;background:#07060b;z-index:9;transition:opacity .35s}
+  #boot.gone{opacity:0;pointer-events:none}
+  #bar{width:220px;height:3px;background:#221d2b}
+  #bar>i{display:block;height:100%;width:0;background:#c8a24a;transition:width .15s}
+  #boot p{margin:0;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:#6b6376}
+</style>
+</head>
+<body>
+<div id="wrap"><canvas id="c" width="384" height="216"></canvas></div>
+<div id="boot"><p>Crownless</p><div id="bar"><i></i></div><p id="bootmsg">loading</p></div>
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>

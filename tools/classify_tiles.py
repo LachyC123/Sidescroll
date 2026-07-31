@@ -180,17 +180,42 @@ def build(biome, path):
             roles["body_vars"] = fill
             roles["body_left"] = roles["body_right"] = roles["body"]
 
-    # decorative singles: small detail tiles anywhere outside the blob
-    details = [idx(c, r) for r in range(rows) for c in range(cols)
-               if grid[r][c] == "detail"
-               and not (left <= c <= right and r0 <= r <= bot_r)]
+    # Decorative singles. Section 7 forbids scattering fragments of larger
+    # objects around, so a tile only qualifies if it is *isolated* in the sheet
+    # -- most of its neighbours are empty -- which is what a standalone tuft,
+    # rock, mushroom or bone looks like, as opposed to one cell of a tree.
+    def isolated(c, r):
+        empties = 0
+        for dc, dr in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+            cc, rr = c + dc, r + dr
+            if not (0 <= cc < cols and 0 <= rr < rows) or grid[rr][cc] == "empty":
+                empties += 1
+        return empties >= 2
+
+    details = []
+    grounded = []          # sits on a surface: content hugs the tile's bottom
+    for r in range(rows):
+        for c in range(cols):
+            if grid[r][c] != "detail":
+                continue
+            if left <= c <= right and r0 <= r <= bot_r:
+                continue
+            if not isolated(c, r):
+                continue
+            p = profile(img, c, r)
+            if not (0.06 <= p["all"] <= 0.62):
+                continue
+            details.append(idx(c, r))
+            if p["bot"] > p["top"] * 1.6 and p["bot"] > 0.12:
+                grounded.append(idx(c, r))
 
     return {
         "image": f"env/{biome}/tiles.png",
         "cols": cols, "rows": rows, "tile": T,
         "blob": {"col": c0, "row": r0, "w": w, "depth": depth},
         "roles": roles,
-        "details": details[:64],
+        "details": details[:48],
+        "grounded": (grounded or details)[:32],
     }, grid, (cols, rows)
 
 

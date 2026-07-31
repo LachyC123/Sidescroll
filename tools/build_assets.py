@@ -278,6 +278,12 @@ def write_docs():
     os.makedirs(DOCS, exist_ok=True)
     with open(os.path.join(DOCS, "asset_manifest.json"), "w") as f:
         json.dump(MANIFEST, f, indent=1, sort_keys=True)
+    # the runtime copy the game fetches; same content, no absolute paths
+    gdata = os.path.join(ROOT, "game", "data")
+    os.makedirs(gdata, exist_ok=True)
+    runtime = {k: v for k, v in MANIFEST.items() if k != "packs"}
+    with open(os.path.join(gdata, "asset_manifest.json"), "w") as f:
+        json.dump(runtime, f, separators=(",", ":"), sort_keys=True)
 
     rows = ["source_pack,category,normalized_path,width,height,frames,notes"]
 
