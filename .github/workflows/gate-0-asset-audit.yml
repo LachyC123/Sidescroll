@@ -24,6 +24,9 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Run audit unit tests
+        run: python -m unittest discover -s tests -v
+
       - name: Run deterministic ZIP audit
         run: python tools/audit_assets.py
 
