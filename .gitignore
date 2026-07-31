@@ -1,0 +1,25 @@
+# Godot-generated files
+.godot/
+.import/
+export.cfg
+export_presets.cfg
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+
+# Local audit outputs (GitHub Actions publishes these as an artifact)
+docs/audit/
+
+# Extracted and normalised asset working folders
+assets/_source/
+assets/normalized/
+
+# Builds and captures
+builds/
+captures/
+
+# Operating-system metadata
+.DS_Store
+Thumbs.db
