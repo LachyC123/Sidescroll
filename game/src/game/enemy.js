@@ -155,6 +155,7 @@ export class Enemy {
 
     const p = world.player;
     const slowK = this.slowT > 0 ? 0.55 : 1;
+    if (this.isBoss) this.updateBossPhase(world);
 
     switch (this.data.ai) {
       case 'patrol':  this.aiPatrol(dt, world, p, slowK); break;
@@ -170,6 +171,34 @@ export class Enemy {
 
     this.anim.update(dtms);
     this.touchPlayer(world, p);
+  }
+
+  /**
+   * Bosses shift phase on health thresholds: shorter tells, faster movement and
+   * a longer attack pattern. Section 6 asks for "three short phases" on the
+   * final fight rather than one long health bar, and the tell shortening is
+   * what actually communicates the escalation to the player.
+   */
+  updateBossPhase(world) {
+    const def = this.bossDef;
+    if (!def || !def.phases) return;
+    const frac = this.health / this.maxHealth;
+    let idx = 0;
+    for (let i = 0; i < def.phases.length; i++) if (frac <= def.phases[i].at) idx = i;
+    if (idx === this.phaseIndex) return;
+    this.phaseIndex = idx;
+    const ph = def.phases[idx];
+    this.data = { ...this.data, tell: ph.tell, cooldown: ph.cooldown, speed: ph.speed };
+    this.pattern = ph.pattern;
+    this.patternStep = 0;
+    if (idx > 0) {
+      // a clear, readable beat between phases rather than a silent stat swap
+      this.setState('stagger');
+      sfx('tell_boss');
+      vfx.emit('spark', this.cx, this.cy, { count: 12, colour: '#ff9a3c' });
+      vfx.ring(this.cx, this.cy, '#ff9a3c', 30, 420);
+      if (world.setBanner) world.setBanner(`${def.name} -- PHASE ${idx + 1}`, 1.8);
+    }
   }
 
   physics(dt, world, dying) {

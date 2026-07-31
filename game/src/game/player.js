@@ -76,6 +76,10 @@ export class Player {
 
   // ------------------------------------------------------------- vow helpers
   vowTier(id) {
+    // Chapter 5 suppresses vows rather than clearing them: emptying the array
+    // would be written straight back to the save on the next autosave and the
+    // player would lose them permanently.
+    if (this.vowsSuppressed) return null;
     if (!this.vows.includes(id)) return null;
     const lvl = Math.max(1, Math.min(3, this.vowLevels[id] || 1));
     return VOWS[id].tiers[lvl - 1];
@@ -196,8 +200,14 @@ export class Player {
     return performance.now() - this.lastGroundedAt <= MOVE.coyoteMs;
   }
 
-  tryStartAttack() {
+  tryStartAttack(world) {
     if (!In.pressed('attack')) return false;
+    if (world && world.stripped) {
+      // disarmed: refuse audibly and visibly rather than doing nothing
+      sfx('ui_invalid');
+      vfx.emit('blocked', this.cx + this.facing * 8, this.cy - 4, { count: 3 });
+      return false;
+    }
     // Attack 2 is the committed finisher: held attack, or a follow-up chained
     // during Attack 1's cancel window.
     this.beginAttack(1);
@@ -250,7 +260,7 @@ export class Player {
       return;
     }
     if (!this.grounded && !this.canCoyote()) { this.setState(S.AIR); return; }
-    if (this.tryStartAttack()) return;
+    if (this.tryStartAttack(world)) return;
     if (In.pressed('heal') && this.healCharges > 0 && this.health < this.maxHealth) {
       this.setState(S.HEAL); return;
     }
@@ -298,7 +308,7 @@ export class Player {
     this.anim.play(want);
 
     if (this.grounded && this.vy >= 0) { this.setState(S.LAND); return; }
-    if (this.tryStartAttack()) return;
+    if (this.tryStartAttack(world)) return;
   }
 
   onLand(world) {
@@ -326,7 +336,7 @@ export class Player {
 
   stLand(dt, world) {
     this.vx *= Math.pow(0.001, dt);
-    if (this.tryStartAttack()) return;
+    if (this.tryStartAttack(world)) return;
     if (this.wantsJump()) { In.consume('jump'); this.setState(S.JUMP_START); return; }
     if (this.anim.done || this.stateT > 130) this.setState(In.axisX() ? S.RUN : S.IDLE);
   }

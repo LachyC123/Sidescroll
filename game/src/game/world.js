@@ -51,6 +51,14 @@ export class World {
     this.complete = false;
     this.debug = false;
 
+    // Chapter 5 opens captured: no sword, no vows, until the cell waystone.
+    // Section 3 calls for a "temporary loss of upgrades and a regain-the-sword
+    // mini arc", so the loss is real -- attacking is unavailable, not merely
+    // weaker -- and it ends at an authored point rather than on a timer.
+    const restoreId = `${ch.id}.way.cell`;
+    this.stripped = !!ch.strip && !save.world.restored_waystones.includes(restoreId);
+    this.player.vowsSuppressed = this.stripped;
+
     this.buildParallax();
     this.spawnEntities();
     this.resetToSpawn(save.progress.current_checkpoint_id);
@@ -382,7 +390,7 @@ export class World {
 
   restoreKit() {
     this.stripped = false;
-    this.player.vows = this.savedVows || this.player.vows;
+    this.player.vowsSuppressed = false;
     this.setBanner('YOUR SWORD, AND YOUR VOWS', 3.2);
     sfx('waystone');
   }

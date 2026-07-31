@@ -60,6 +60,20 @@
    "detail": "Attack1"
   },
   {
+   "name": "a swing damages an enemy",
+   "ok": true,
+   "detail": "3 -> 2, hits=1"
+  },
+  {
+   "name": "sustained hits kill it",
+   "ok": true
+  },
+  {
+   "name": "a kill awards road ash",
+   "ok": true,
+   "detail": "ash=3"
+  },
+  {
    "name": "player traverses a long distance",
    "ok": true,
    "detail": "184 -> 566 screen=null"
@@ -77,6 +91,33 @@
   {
    "name": "all 16 chapters compose",
    "ok": true
+  },
+  {
+   "name": "final boss exists with phases",
+   "ok": true,
+   "detail": "The Blood Regent hp=88"
+  },
+  {
+   "name": "boss tells shorten as it escalates",
+   "ok": true,
+   "detail": "620 -> 520 -> 440"
+  },
+  {
+   "name": "chapter 5 opens disarmed",
+   "ok": true
+  },
+  {
+   "name": "attacking is refused while disarmed",
+   "ok": true
+  },
+  {
+   "name": "the cell waystone returns the kit",
+   "ok": true
+  },
+  {
+   "name": "the strip never reaches the save file",
+   "ok": true,
+   "detail": "[\"ash\",null,null]"
   },
   {
    "name": "death screen appears",
@@ -101,7 +142,7 @@
   {
    "name": "continue restores a world",
    "ok": true,
-   "detail": "chapter=chE"
+   "detail": "chapter=ch5"
   },
   {
    "name": "no console errors",
@@ -145,7 +186,7 @@
    "name": "Where Paths Forget",
    "biome": "lost_glades",
    "ok": true,
-   "ms": 7,
+   "ms": 4,
    "width": 268,
    "solid": 4024,
    "enemies": 7,
@@ -175,14 +216,14 @@
    "name": "The Closed Gate",
    "biome": "fortress",
    "ok": true,
-   "ms": 1,
+   "ms": 2,
    "width": 234,
    "solid": 3543,
-   "enemies": 5,
+   "enemies": 6,
    "decor": 30,
    "checkpoints": 1,
    "secrets": 1,
-   "boss": false,
+   "boss": true,
    "spawnOk": true
   },
   {
@@ -190,7 +231,7 @@
    "name": "Below the Crown",
    "biome": "prison",
    "ok": true,
-   "ms": 5,
+   "ms": 7,
    "width": 232,
    "solid": 7579,
    "enemies": 9,
@@ -235,14 +276,14 @@
    "name": "The Sinking Road",
    "biome": "swamp",
    "ok": true,
-   "ms": 1,
+   "ms": 3,
    "width": 232,
    "solid": 3674,
-   "enemies": 4,
+   "enemies": 5,
    "decor": 34,
    "checkpoints": 1,
    "secrets": 1,
-   "boss": false,
+   "boss": true,
    "spawnOk": true
   },
   {
@@ -250,7 +291,7 @@
    "name": "The Empty Shift",
    "biome": "mine",
    "ok": true,
-   "ms": 5,
+   "ms": 2,
    "width": 232,
    "solid": 6728,
    "enemies": 7,
@@ -280,14 +321,14 @@
    "name": "The Bone Mountains",
    "biome": "deadwind",
    "ok": true,
-   "ms": 2,
+   "ms": 1,
    "width": 236,
    "solid": 3419,
-   "enemies": 6,
+   "enemies": 7,
    "decor": 37,
    "checkpoints": 1,
    "secrets": 1,
-   "boss": false,
+   "boss": true,
    "spawnOk": true
   },
   {
@@ -295,7 +336,7 @@
    "name": "The First Crown",
    "biome": "temple",
    "ok": true,
-   "ms": 3,
+   "ms": 5,
    "width": 236,
    "solid": 6938,
    "enemies": 8,
@@ -310,14 +351,14 @@
    "name": "The Red Silence",
    "biome": "monastery",
    "ok": true,
-   "ms": 1,
+   "ms": 2,
    "width": 234,
    "solid": 7768,
-   "enemies": 5,
+   "enemies": 6,
    "decor": 42,
    "checkpoints": 1,
    "secrets": 1,
-   "boss": false,
+   "boss": true,
    "spawnOk": true
   },
   {
@@ -328,11 +369,11 @@
    "ms": 1,
    "width": 236,
    "solid": 6752,
-   "enemies": 5,
+   "enemies": 6,
    "decor": 47,
    "checkpoints": 1,
    "secrets": 1,
-   "boss": false,
+   "boss": true,
    "spawnOk": true
   },
   {

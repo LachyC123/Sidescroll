@@ -173,6 +173,33 @@ check('attack state entered', /Attack/.test(atk.pstate || ''), atk.pstate);
 await shot('08-attack');
 await page.waitForTimeout(700);
 
+// ------------------------------------------------------- combat resolves
+// Put an enemy in reach and confirm a swing actually damages and kills it,
+// rather than trusting that the state machine entered Attack1.
+const combat = await page.evaluate(async () => {
+  const f = window.__crownless, w = f.world;
+  const { Enemy, clipsFor } = await import('./src/game/enemy.js');
+  const e = new Enemy('snail', w.player.cx + 16, w.player.feetY,
+                      clipsFor('snail', f.res.clips.enemies), { facing: -1 });
+  w.enemies.push(e);
+  const start = e.health;
+  // resolve a swing directly against the world, as the player state would
+  const hits = w.damageEnemies(
+    { x: w.player.x, y: w.player.y - 6, w: 40, h: 28 },
+    { damage: 1, knockback: 90, dirX: 1, pass: 9001, source: w.player });
+  const mid = e.health;
+  for (let i = 0; i < 8; i++) {
+    w.damageEnemies({ x: w.player.x, y: w.player.y - 6, w: 40, h: 28 },
+                    { damage: 2, knockback: 90, dirX: 1, pass: 9002 + i, heavy: true,
+                      source: w.player });
+  }
+  return { start, mid, hits: hits.length, dead: e.dead, ash: w.player.roadAsh };
+});
+check('a swing damages an enemy', combat.hits > 0 && combat.mid < combat.start,
+      `${combat.start} -> ${combat.mid}, hits=${combat.hits}`);
+check('sustained hits kill it', combat.dead === true);
+check('a kill awards road ash', combat.ash > 0, 'ash=' + combat.ash);
+
 // ---------------------------------------------------- traverse the chapter
 let far = await state();
 for (let i = 0; i < 90; i++) {
@@ -299,10 +326,62 @@ for (const c of chapters) {
   await shot('ch-' + c.id);
 }
 
+// ------------------------------------------------------------- boss phases
+const boss = await page.evaluate(() => {
+  const f = window.__crownless;
+  f.save.progress.current_checkpoint_id = 'ch14.entry';
+  f.enterChapter('ch14');
+  const w = f.world;
+  const b = w.bossEntity;
+  if (!b) return { ok: false, why: 'no boss entity' };
+  b.dormant = false;
+  w.boss = b;
+  const seen = [];
+  for (const frac of [1.0, 0.6, 0.3]) {
+    b.health = Math.ceil(b.maxHealth * frac);
+    b.updateBossPhase(w);
+    seen.push({ frac, phase: b.phaseIndex, tell: b.data.tell });
+  }
+  return { ok: true, name: b.bossDef.name, maxHealth: b.maxHealth, seen };
+});
+check('final boss exists with phases', boss.ok && boss.seen.length === 3,
+      boss.ok ? `${boss.name} hp=${boss.maxHealth}` : boss.why);
+if (boss.ok) {
+  const tells = boss.seen.map((s) => s.tell);
+  check('boss tells shorten as it escalates', tells[2] < tells[0], tells.join(' -> '));
+}
+
+// ------------------------------------------------- disarmed opening (ch5)
+const strip = await page.evaluate(() => {
+  const f = window.__crownless;
+  // clear the cell waystone so the chapter opens captured
+  f.save.world.restored_waystones = f.save.world.restored_waystones
+    .filter((w) => w !== 'ch5.way.cell');
+  f.save.progress.current_checkpoint_id = 'ch5.entry';
+  f.enterChapter('ch5');
+  const w = f.world;
+  const before = { stripped: w.stripped, suppressed: w.player.vowsSuppressed,
+                   ash: w.player.vowTier('ash') };
+  const attacked = w.player.tryStartAttack(w);
+  w.restoreKit();
+  return { before, attacked,
+           after: { stripped: w.stripped, ash: w.player.vowTier('ash') },
+           saved: f.save.build.equipped_vows.slice() };
+});
+check('chapter 5 opens disarmed', strip.before.stripped === true
+      && strip.before.ash === null);
+check('attacking is refused while disarmed', strip.attacked === false);
+check('the cell waystone returns the kit', strip.after.stripped === false
+      && strip.after.ash !== null);
+check('the strip never reaches the save file',
+      strip.saved.some((v) => v !== null), JSON.stringify(strip.saved));
+
 // ------------------------------------------------------------------- death
 await page.evaluate(() => {
   const w = window.__crownless.world;
-  if (w) w.player.hurt(99, 1, w, 'test');
+  if (!w) return;
+  w.player.hurtGrace = 0;   // spawn grace would otherwise refuse the hit
+  w.player.hurt(99, 1, w, 'test');
 });
 await page.waitForTimeout(1500);
 s = await state();

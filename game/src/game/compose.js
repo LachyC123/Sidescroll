@@ -368,6 +368,18 @@ function placeBeatObjects(map, out, ch, beat, rng, span, H, bi) {
     }
   }
 
+  // The boss is placed before the ordinary-enemy guard below, which returns
+  // early on a boss beat -- otherwise this block is unreachable and boss
+  // chapters ship with no boss at all.
+  if (beat.type === 'boss' && ch.boss) {
+    const bx = Math.floor((x0 + x1) / 2) + 6;
+    const gr = groundRowAt(map, bx, H);
+    if (gr > 0) {
+      out.entities.push({ type: 'boss', boss: ch.boss, x: bx * TS, y: gr * TS,
+                          x0: x0 * TS, x1: x1 * TS });
+    }
+  }
+
   // enemies: authored positions, on ground, with room for their tell
   const roster = beat.enemy ? [beat.enemy] : (ch.enemies || []);
   if (!roster.length || beat.type === 'rest' || beat.type === 'arrival'
@@ -429,14 +441,6 @@ function placeBeatObjects(map, out, ch, beat, rng, span, H, bi) {
     }
   }
 
-  if (beat.type === 'boss' && ch.boss) {
-    const cx = Math.floor((x0 + x1) / 2) + 6;
-    const gr = groundRowAt(map, cx, H);
-    if (gr > 0) {
-      out.entities.push({ type: 'boss', boss: ch.boss, x: cx * TS, y: gr * TS,
-                          x0: x0 * TS, x1: x1 * TS });
-    }
-  }
 }
 
 /**
