@@ -7,6 +7,11 @@ on:
       - ai/browser-game-foundation
     paths:
       - '*.zip'
+      - '**/*.zip'
+      - 'src/**'
+      - 'index.html'
+      - 'package.json'
+      - 'vite.config.js'
       - 'tools/build_browser_asset_pack.py'
       - '.github/workflows/build-browser-assets.yml'
 
@@ -18,15 +23,43 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
       - name: Extract browser-safe assets and generate manifest
         run: python tools/build_browser_asset_pack.py
+
+      - name: Install extracted assets into public game directory
+        run: |
+          rm -rf public/game-assets
+          mkdir -p public/game-assets
+          cp -R build/browser-assets/. public/game-assets/
+
+      - name: Install web dependencies
+        run: npm install
+
+      - name: Build playable browser game
+        run: npm run build
+
       - name: Upload browser asset pack and museum
         uses: actions/upload-artifact@v4
         with:
           name: legacy-fantasy-browser-assets
           path: build/browser-assets
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload complete playable game
+        uses: actions/upload-artifact@v4
+        with:
+          name: legacy-fantasy-playable-build
+          path: dist
           if-no-files-found: error
           retention-days: 30
