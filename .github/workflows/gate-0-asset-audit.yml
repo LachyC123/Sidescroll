@@ -1,0 +1,40 @@
+name: Gate 0 Asset Audit
+
+on:
+  push:
+    branches:
+      - main
+      - ai/gate-0-asset-audit
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run audit unit tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Run deterministic ZIP audit
+        run: python tools/audit_assets.py
+
+      - name: Upload Gate 0 reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gate-0-asset-audit
+          path: docs/audit/
+          if-no-files-found: error
+          retention-days: 30
