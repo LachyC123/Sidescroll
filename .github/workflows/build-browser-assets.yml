@@ -1,0 +1,32 @@
+name: Build browser asset pack
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - ai/browser-game-foundation
+    paths:
+      - '*.zip'
+      - 'tools/build_browser_asset_pack.py'
+      - '.github/workflows/build-browser-assets.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Extract browser-safe assets and generate manifest
+        run: python tools/build_browser_asset_pack.py
+      - name: Upload browser asset pack and museum
+        uses: actions/upload-artifact@v4
+        with:
+          name: legacy-fantasy-browser-assets
+          path: build/browser-assets
+          if-no-files-found: error
+          retention-days: 30
