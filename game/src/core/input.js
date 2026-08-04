@@ -58,6 +58,36 @@ function actionsFor(code) {
 const rawKeys = new Set();
 let captureFn = null;
 
+// Virtual buttons, driven by the on-screen touch pad. They feed the same
+// action table as keys and pads, so every menu, prompt and gameplay state
+// works from touch without knowing touch exists.
+const virtual = new Set();
+// A tap can begin and end inside a single 60Hz frame, so releasing immediately
+// would mean poll() never observes the press and the button appears dead. Any
+// press is therefore held until exactly one poll has seen it.
+const pressedSincePoll = new Set();
+const releaseAfterPoll = new Set();
+
+export function setVirtual(action, on) {
+  if (on) {
+    if (!virtual.has(action)) setDevice('touch');
+    virtual.add(action);
+    pressedSincePoll.add(action);
+    releaseAfterPoll.delete(action);
+  } else if (pressedSincePoll.has(action)) {
+    releaseAfterPoll.add(action);      // let this frame's poll see it first
+  } else {
+    virtual.delete(action);
+  }
+}
+export function clearVirtual() {
+  for (const a of virtual) {
+    if (pressedSincePoll.has(a)) releaseAfterPoll.add(a);
+    else virtual.delete(a);
+  }
+}
+export function virtualDown(action) { return virtual.has(action); }
+
 addEventListener('keydown', (e) => {
   if (captureFn) {
     e.preventDefault();
@@ -98,6 +128,7 @@ export function poll() {
   const next = {};
   for (const a of ACTIONS) next[a] = false;
   for (const code of rawKeys) for (const a of actionsFor(code)) next[a] = true;
+  for (const a of virtual) next[a] = true;
 
   const pad = pollPad();
   if (pad) {
@@ -121,6 +152,11 @@ export function poll() {
     if (next[a] && !state[a]) pressedAt[a] = now;
     state[a] = next[a];
   }
+
+  // this poll has now observed every virtual press, so short taps can retire
+  for (const a of releaseAfterPoll) virtual.delete(a);
+  releaseAfterPoll.clear();
+  pressedSincePoll.clear();
 }
 
 export function down(a) { return !!state[a]; }
@@ -150,7 +186,13 @@ export function keyLabel(code) {
   if (code.startsWith('Digit')) return code.slice(5);
   return code.toUpperCase();
 }
+const TOUCH_GLYPHS = {
+  jump: 'JUMP', attack: 'HIT', heal: 'MEND', interact: 'USE',
+  pause: 'MENU', map: 'ROAD', cancel: 'BACK',
+  left: '<', right: '>', up: '^', down: 'v',
+};
 export function glyph(action) {
+  if (device === 'touch') return TOUCH_GLYPHS[action] || '?';
   if (device === 'gamepad') return (PAD_GLYPHS[padStyle] || PAD_GLYPHS.xbox)[action] || '?';
   return keyLabel((keys[action] || [])[0]);
 }

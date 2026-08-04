@@ -13,20 +13,38 @@ ctx.imageSmoothingEnabled = false;
 let scale = 1;
 export function getScale() { return scale; }
 
+// Section 8 prefers integer scaling and forbids a non-uniform stretch. Both
+// hold here: scaling is always uniform, and integer is used unless it would
+// throw away most of the screen -- which is exactly what happens on a phone,
+// where the largest integer scale is often 1 and leaves the game a postage
+// stamp in the middle of a tall display. Settings can force integer back on.
+export let preferInteger = true;
+export function setPreferInteger(v) { preferInteger = !!v; fit(); }
+
 function fit() {
   const wrap = document.getElementById('wrap');
+  if (!wrap) return;
   const aw = wrap.clientWidth, ah = wrap.clientHeight;
-  // largest integer scale that fits; fall back to a fractional scale only on
-  // displays too small for 1:1, where letterboxing alone would leave nothing.
-  let s = Math.floor(Math.min(aw / W, ah / H));
-  if (s < 1) s = Math.min(aw / W, ah / H);
-  scale = s;
-  canvas.style.width = Math.round(W * s) + 'px';
-  canvas.style.height = Math.round(H * s) + 'px';
+  if (aw <= 0 || ah <= 0) return;
+
+  const raw = Math.min(aw / W, ah / H);
+  const int = Math.floor(raw);
+  // how much of the fitted area an integer scale would give up
+  const waste = int >= 1 ? (raw - int) / raw : 1;
+
+  scale = (int < 1) ? raw
+        : (preferInteger && waste <= 0.2) ? int
+        : raw;
+
+  canvas.style.width = Math.round(W * scale) + 'px';
+  canvas.style.height = Math.round(H * scale) + 'px';
 }
 
 addEventListener('resize', fit);
+addEventListener('orientationchange', () => setTimeout(fit, 120));
+if (window.visualViewport) visualViewport.addEventListener('resize', fit);
 fit();
+export { fit };
 
 /** Convert a client-space point (pointer/touch) into internal canvas pixels. */
 export function toCanvas(clientX, clientY) {

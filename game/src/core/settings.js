@@ -2,12 +2,12 @@
 // takes the player's controls and accessibility choices with it (Section 11).
 
 import { DEFAULT_KEYS, setBindings, resetBindings } from './input.js';
-import { fxScale } from './screen.js';
+import { fxScale, setPreferInteger } from './screen.js';
 
 const KEY = 'crownless.settings';
 
 export const DEFAULTS = {
-  video: { integerScale: true, showFps: false },
+  video: { integerScale: true, showFps: false, touchControls: null },
   audio: { master: 0.8, music: 0.7, sfx: 0.9, ambience: 0.6 },
   gameplay: { holdToRun: false, autoHeal: false, tutorialPrompts: true },
   accessibility: {
@@ -62,6 +62,7 @@ export function apply() {
   const a = settings.accessibility;
   fxScale.shake = a.photosensitiveSafe ? 0 : a.shake;
   fxScale.flash = a.photosensitiveSafe ? 0 : a.flash;
+  setPreferInteger(settings.video.integerScale);
   if (settings.controls.keys) setBindings(settings.controls.keys);
   else resetBindings();
 }

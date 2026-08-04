@@ -15,7 +15,7 @@ not approval*, and every gate below still wants a human pass.
 | 5 | Chapter pipeline | **Done** | Chapters 1–2 built by the same composer as the rest |
 | 6 | Content production | **Done** | All 15 chapters + epilogue compose and are playable |
 | 7 | Boss + finale | **Partial** | Five bosses with real phase behaviour, but on existing silhouettes. Section 6's art gate is **not** cleared. |
-| 8 | Polish + QA | **Partial** | 43 automated checks pass; no human playtests |
+| 8 | Polish + QA | **Partial** | 48 desktop + 45 mobile checks pass; no human playtests |
 
 ## Section 13 release checklist
 
@@ -74,6 +74,29 @@ Found by playtesting with real input rather than by reading the code:
   carries an authored quota; 27 are placed at fixed locations.
 - **Road Ash had nothing to buy.** It is now spent on Vow tiers at a restored
   waystone, which is the loop Section 5 describes but never closes.
+
+## The black screen, and why nothing caught it
+
+`Flow.transition` initialised to `{ t: 1, dir: 0 }` -- "fully faded to black,
+not animating". `update()` only decays `t` while `dir` is non-zero, so the
+curtain never lifted, and `draw()` painted a full-opacity black rectangle over
+every frame until the first `fade()` ran. Boot, title, new game and slot select
+were solid black from the first build.
+
+The harness took screenshots of all four and never looked at them. It asserted
+the *state machine* was on the title screen, which it was; it never asserted the
+title screen had drawn anything. `docs/evidence/01-boot.png` through
+`03-newgame.png` were single-colour images sitting in the repository as
+"evidence".
+
+On desktop you could blindly press keys through the invisible menus, which is
+exactly what the harness did -- so every later check passed against a game no
+human could see. On a phone there were no keys to press and no touch controls,
+so it was simply a black rectangle.
+
+Both are now asserted: `notBlank()` fails any screen with fewer than three
+distinct colours, and `tools/verify_mobile.mjs` plays the first-play path by
+touch on three devices.
 
 Still needing a human: foreground readability, audio zone transitions, encounter
 pacing, and whether any of it is actually fun.

@@ -5,9 +5,19 @@
    "ok": true
   },
   {
+   "name": "boot renders content",
+   "ok": true,
+   "detail": "3 distinct colours"
+  },
+  {
    "name": "reaches title screen",
    "ok": true,
    "detail": "title"
+  },
+  {
+   "name": "title renders content",
+   "ok": true,
+   "detail": "10 distinct colours"
   },
   {
    "name": "opens new game screen",
@@ -15,9 +25,19 @@
    "detail": "newgame"
   },
   {
+   "name": "new game renders content",
+   "ok": true,
+   "detail": "9 distinct colours"
+  },
+  {
    "name": "opens slot screen",
    "ok": true,
    "detail": "slots"
+  },
+  {
+   "name": "save slots renders content",
+   "ok": true,
+   "detail": "9 distinct colours"
   },
   {
    "name": "enters chapter 0",
@@ -38,6 +58,11 @@
    "name": "chapter has decoration",
    "ok": true,
    "detail": "n=34"
+  },
+  {
+   "name": "gameplay renders content",
+   "ok": true,
+   "detail": "143 distinct colours"
   },
   {
    "name": "player moves right",
@@ -214,7 +239,7 @@
    "name": "The Last Village",
    "biome": "high_forest",
    "ok": true,
-   "ms": 7,
+   "ms": 6,
    "width": 302,
    "solid": 5133,
    "enemies": 5,
@@ -229,7 +254,7 @@
    "name": "The Waking Trees",
    "biome": "dusk_wood",
    "ok": true,
-   "ms": 3,
+   "ms": 2,
    "width": 274,
    "solid": 3362,
    "enemies": 6,
@@ -244,7 +269,7 @@
    "name": "Where Paths Forget",
    "biome": "lost_glades",
    "ok": true,
-   "ms": 6,
+   "ms": 2,
    "width": 268,
    "solid": 3491,
    "enemies": 6,
@@ -319,7 +344,7 @@
    "name": "The Violet Tide",
    "biome": "purple_bay",
    "ok": true,
-   "ms": 3,
+   "ms": 2,
    "width": 234,
    "solid": 3140,
    "enemies": 7,
@@ -334,7 +359,7 @@
    "name": "The Sinking Road",
    "biome": "swamp",
    "ok": true,
-   "ms": 3,
+   "ms": 2,
    "width": 232,
    "solid": 3824,
    "enemies": 5,
@@ -349,7 +374,7 @@
    "name": "The Empty Shift",
    "biome": "mine",
    "ok": true,
-   "ms": 2,
+   "ms": 3,
    "width": 232,
    "solid": 6901,
    "enemies": 7,
@@ -364,7 +389,7 @@
    "name": "The Kingdom Beneath",
    "biome": "deep_cave",
    "ok": true,
-   "ms": 5,
+   "ms": 4,
    "width": 234,
    "solid": 19989,
    "enemies": 9,
@@ -424,7 +449,7 @@
    "name": "The Usurper's House",
    "biome": "mansion",
    "ok": true,
-   "ms": 1,
+   "ms": 2,
    "width": 236,
    "solid": 6796,
    "enemies": 6,

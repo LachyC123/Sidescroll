@@ -2,25 +2,101 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#07060b">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>CROWNLESS</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%230b0910'/><rect x='6' y='3' width='4' height='7' fill='%23c8a24a'/><rect x='4' y='10' width='8' height='2' fill='%23c8a24a'/></svg>">
 <style>
+  :root{ --ink:#e8dcc8; --gold:#c8a24a; --panel:rgba(23,19,32,.62); --edge:rgba(200,162,74,.45); }
+  *{box-sizing:border-box}
   html,body{margin:0;height:100%;background:#07060b;overflow:hidden;
-    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#cdc6bb}
-  #wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--ink);
+    -webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;
+    overscroll-behavior:none;touch-action:none}
+
+  /* Stage is a column: the canvas takes the space that is left once the touch
+     pad has claimed its share, so the two never overlap in portrait. */
+  #stage{position:fixed;inset:0;display:flex;flex-direction:column}
+  #wrap{flex:1 1 auto;min-height:0;display:flex;align-items:center;justify-content:center;
+    padding-top:env(safe-area-inset-top)}
   canvas{image-rendering:pixelated;image-rendering:crisp-edges;display:block;
     background:#07060b;touch-action:none}
+
+  /* ---------------------------------------------------------- touch pad
+     One flex row: d-pad, a small middle column, then the action cluster.
+     Everything is sized with clamp() against viewport width, because a fixed
+     button size overflows the row on a narrow phone and pushes the last
+     buttons off the edge of the screen entirely. */
+  .tc{flex:0 0 auto;position:relative;display:none;width:100%;
+    padding:6px 8px calc(8px + env(safe-area-inset-bottom));
+    justify-content:space-between;align-items:flex-end;gap:6px;touch-action:none}
+  body.touch-on .tc{display:flex}
+  .tc[hidden]{display:none !important}
+  .tc-side,.tc-mid{display:flex;min-width:0}
+  .tc-mid{flex-direction:column;gap:5px;align-self:flex-end;padding-bottom:2px}
+  .tc-r{flex-direction:column;gap:5px;align-items:flex-end}
+  .tc-row{display:flex;gap:6px;justify-content:flex-end}
+  .tc-pad{display:grid;grid-template-columns:repeat(3,auto);grid-template-rows:auto auto;
+    gap:4px;align-items:center;justify-items:center}
+  .tc-left {grid-column:1;grid-row:1/3}
+  .tc-right{grid-column:3;grid-row:1/3}
+  .tc-up   {grid-column:2;grid-row:1}
+  .tc-down {grid-column:2;grid-row:2}
+
+  .tc-btn{appearance:none;-webkit-appearance:none;font:inherit;color:var(--ink);
+    background:var(--panel);border:1px solid var(--edge);border-radius:11px;
+    padding:0 6px;letter-spacing:.04em;flex:0 0 auto;
+    display:flex;align-items:center;justify-content:center;touch-action:none;
+    width:clamp(44px,12vw,60px);height:clamp(42px,11vw,58px);
+    font-size:clamp(13px,3.4vw,17px);
+    backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);
+    transition:background .06s linear,transform .06s linear}
+  .tc-btn.tc-sm{width:clamp(42px,11vw,56px);height:clamp(38px,9.5vw,46px);
+    font-size:clamp(9px,2.4vw,11px);border-radius:8px;opacity:.88}
+  .tc-btn.tc-big{width:clamp(54px,15vw,74px);height:clamp(54px,15vw,74px);
+    border-radius:50%;font-size:clamp(11px,3vw,14px)}
+  .tc-btn.is-down{background:rgba(200,162,74,.85);color:#0b0910;transform:translateY(1px)}
+
+  /* Landscape: overlay the pad on the sides of the canvas instead of stealing
+     vertical space, which is the scarce axis with a phone on its side. */
+  @media (orientation:landscape) and (max-height:520px){
+    #stage{display:block}
+    #wrap{position:fixed;inset:0}
+    body.touch-on .tc{position:fixed;left:0;right:0;bottom:0;background:none;
+      padding:0 10px calc(8px + env(safe-area-inset-bottom));pointer-events:none}
+    body.touch-on .tc-btn{pointer-events:auto}
+  }
+
+  /* ------------------------------------------------------------- loader */
   #boot{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
     flex-direction:column;gap:14px;background:#07060b;z-index:9;transition:opacity .35s}
   #boot.gone{opacity:0;pointer-events:none}
   #bar{width:220px;height:3px;background:#221d2b}
-  #bar>i{display:block;height:100%;width:0;background:#c8a24a;transition:width .15s}
+  #bar>i{display:block;height:100%;width:0;background:var(--gold);transition:width .15s}
   #boot p{margin:0;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:#6b6376}
+  #hint{position:fixed;left:0;right:0;bottom:calc(6px + env(safe-area-inset-bottom));
+    text-align:center;font-size:10px;letter-spacing:.18em;color:#4a4356;pointer-events:none}
+  body.touch-on #hint{display:none}
+
+  /* A 16:9 game on a 20:9 phone can only ever be as wide as the screen, so
+     portrait leaves the play area small. Suggest landscape once, quietly,
+     rather than blocking play on it. */
+  #rotate{position:fixed;left:0;right:0;top:calc(8px + env(safe-area-inset-top));
+    text-align:center;font-size:10px;letter-spacing:.2em;color:#6b6376;
+    pointer-events:none;display:none;animation:fadeout 6s ease-in forwards}
+  @keyframes fadeout{0%,70%{opacity:.9}100%{opacity:0}}
+  @media (orientation:portrait){ body.touch-on #rotate{display:block} }
 </style>
 </head>
 <body>
-<div id="wrap"><canvas id="c" width="384" height="216"></canvas></div>
+<div id="stage">
+  <div id="wrap"><canvas id="c" width="384" height="216"></canvas></div>
+</div>
+<div id="hint">ARROWS MOVE &nbsp; SPACE JUMP &nbsp; J ATTACK &nbsp; ESC PAUSE</div>
+<div id="rotate">ROTATE FOR A LARGER VIEW</div>
 <div id="boot"><p>Crownless</p><div id="bar"><i></i></div><p id="bootmsg">loading</p></div>
 <script type="module" src="./src/main.js"></script>
 </body>

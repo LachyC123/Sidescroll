@@ -3,6 +3,7 @@
 
 import { W, H, ctx, canvas, clear, drawFlash, shakeOffset } from './core/screen.js';
 import * as In from './core/input.js';
+import * as Touch from './core/touch.js';
 import { loadAll, loadJSON, Clip, img } from './core/assets.js';
 import * as Audio from './core/audio.js';
 import * as Settings from './core/settings.js';
@@ -38,7 +39,11 @@ class Flow {
     this.slot = AUTOSAVE_SLOT;
     this.paused = false;
     this.chapterStart = 0;
-    this.transition = { t: 1, dir: 0, then: null };
+    // t is the opacity of the black curtain. It must start *lifted*: starting
+    // at 1 with dir 0 means "fully black and not animating", and since update()
+    // only decays t while dir is non-zero, the curtain never lifts. That black
+    // every screen before the first fade -- boot, title, new game and slots.
+    this.transition = { t: 0, dir: 0, then: null };
     this.fps = 60;
     this.go('boot');
   }
@@ -195,6 +200,11 @@ class Flow {
         this.transition.t -= dt * 5.2;
         if (this.transition.t <= 0) { this.transition = { t: 0, dir: 0, then: null }; }
       }
+    } else if (this.transition.t > 0) {
+      // Safety net: never leave a curtain up with nothing animating it. If this
+      // ever runs, something set t without a direction, and without this the
+      // screen would simply stay black forever.
+      this.transition.t = Math.max(0, this.transition.t - dt * 5.2);
     }
 
     if (this.screen) {
@@ -285,7 +295,14 @@ async function main() {
     },
   };
 
+  // On-screen controls. Installed always so a desktop browser with a
+  // touchscreen can turn them on, but only shown when the device actually
+  // wants them.
+  Touch.install();
+  Touch.setEnabled(Settings.settings.video.touchControls ?? Touch.isTouchDevice());
+
   const flow = new Flow(res);
+  flow.touch = Touch;
   window.__crownless = flow;   // for the verification harness
 
   progress(1, 'ready');
