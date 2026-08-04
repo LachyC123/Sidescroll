@@ -43,6 +43,7 @@ export class Composed {
     this.exit = { x: 0, y: 0 };
     this.horizonY = 0;
     this.secrets = 0;
+    this.fragmentsPlaced = 0;
   }
 }
 
@@ -242,6 +243,9 @@ function buildBeat(map, out, ch, beat, rng, x, gy, H, pr, motifs, bi) {
         const floorAt = gy + 3;
         if (hazardKind === 'water' || hazardKind === 'poison') {
           fillHazard(map, x - g, x, floorAt - 1, H, hazardKind === 'water' ? 'water' : 'poison');
+        } else if (hazardKind === 'falling' && rng.chance(0.4)) {
+          out.entities.push({ type: 'faller', x: (x - Math.floor(g / 2)) * TS,
+                              y: (gy - rng.int(6, 9)) * TS, kind: 'branch' });
         }
         for (let xx = x - g; xx < x; xx++) {
           for (let yy = floorAt; yy < H; yy++) map.set(xx, yy, SOLID);
@@ -258,7 +262,14 @@ function buildBeat(map, out, ch, beat, rng, x, gy, H, pr, motifs, bi) {
         const plen = rng.int(3, 5);
         const px = x + rng.int(1, Math.max(1, n - plen - 1));
         carvePlatform(map, px, plen, py);
-        if (rng.chance(0.55)) {
+        // a reason to be up there: the chapter's remaining fragment quota goes
+        // on ledges before it falls back to loose Road Ash
+        if (out.fragmentsPlaced < (ch.fragments || 0) && py <= gy - MAX_RISE + 1) {
+          out.entities.push({ type: 'fragment',
+                              id: `${ch.id}.frag.${out.fragmentsPlaced}`,
+                              x: (px + plen / 2) * TS, y: py * TS - 8 });
+          out.fragmentsPlaced++;
+        } else if (rng.chance(0.55)) {
           out.entities.push({ type: 'ash', x: (px + plen / 2) * TS, y: py * TS - 8,
                               amount: rng.int(3, 7) });
         }
@@ -280,11 +291,23 @@ function buildBeat(map, out, ch, beat, rng, x, gy, H, pr, motifs, bi) {
         carveFlat(map, x, x + n, gy, H);
         const hx = x + rng.int(1, 3);
         const hlen = rng.int(2, 3);
-        for (let xx = hx; xx < Math.min(hx + hlen, x + n - 1); xx++) {
-          map.set(xx, gy, hazardKind === 'water' ? WATER : HAZARD);
+        if (hazardKind === 'falling') {
+          // Section 3 asks Dusk Wood for falling branch hazards. These are
+          // authored triggers overhead, not a poisoned floor: the pressure is
+          // timing your approach, so the ground stays walkable.
+          out.entities.push({ type: 'faller', x: (hx + 1) * TS,
+                              y: (gy - rng.int(6, 9)) * TS, kind: 'branch' });
+        } else if (hazardKind === 'wind') {
+          // wind is a field, not a tile; the composer only marks where the
+          // gusts matter by leaving a wider gap for them to act on
+          if (left > 12) carvePlatform(map, hx, hlen + 1, gy - rng.int(3, 4));
+        } else {
+          for (let xx = hx; xx < Math.min(hx + hlen, x + n - 1); xx++) {
+            map.set(xx, gy, hazardKind === 'water' ? WATER : HAZARD);
+          }
+          // always an answer: a platform over it, or room to jump
+          if (rng.chance(0.5)) carvePlatform(map, hx, hlen, gy - 3);
         }
-        // always an answer: a platform over it, or room to jump
-        if (rng.chance(0.5)) carvePlatform(map, hx, hlen, gy - 3);
         x += n;
         break;
       }
@@ -358,10 +381,18 @@ function placeBeatObjects(map, out, ch, beat, rng, span, H, bi) {
       }
       carvePlatform(map, sx - 2, 3, gr - 3);
       carvePlatform(map, sx, 3, roomY + 4);
-      const reward = bi % 3 === 0 ? 'fragment' : 'ash';
-      out.entities.push(reward === 'fragment'
-        ? { type: 'fragment', id: `${ch.id}.frag.${bi}`, x: (sx + 3) * TS, y: (roomY + 3) * TS }
-        : { type: 'ash', x: (sx + 3) * TS, y: (roomY + 3) * TS, amount: rng.int(12, 22) });
+      // Appendix B: Health Fragments sit at fixed locations and are never a
+      // random drop. Each chapter carries an authored quota; side rooms are
+      // spent first, and any remainder goes on the high ledges below.
+      const wantFragment = out.fragmentsPlaced < (ch.fragments || 0);
+      if (wantFragment) {
+        out.entities.push({ type: 'fragment', id: `${ch.id}.frag.${out.fragmentsPlaced}`,
+                            x: (sx + 3) * TS, y: (roomY + 3) * TS });
+        out.fragmentsPlaced++;
+      } else {
+        out.entities.push({ type: 'ash', x: (sx + 3) * TS, y: (roomY + 3) * TS,
+                            amount: rng.int(12, 22) });
+      }
       out.entities.push({ type: 'secret', id: `${ch.id}.secret.${bi}`,
                           x: (sx + 3) * TS, y: (roomY + 2) * TS });
       out.secrets++;

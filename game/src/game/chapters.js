@@ -20,6 +20,7 @@ export function actFor(index) {
 export const CHAPTERS = [
   {
     id: 'ch0', num: '0', name: 'The Last Village', biome: 'high_forest',
+    fragments: 1,
     seed: 'crownless/high-forest/last-village',
     ambience: 'forest', surface: 'grass', accent: '#c8a24a',
     sky: '#2b3a52', skyBottom: '#5c6b7a',
@@ -44,6 +45,7 @@ export const CHAPTERS = [
   },
   {
     id: 'ch1', num: '1', name: 'The Waking Trees', biome: 'dusk_wood',
+    fragments: 2,
     seed: 'crownless/dusk-wood/waking-trees',
     ambience: 'forest', surface: 'grass', accent: '#8a6fd0',
     sky: '#221d3a', skyBottom: '#3d3357',
@@ -69,6 +71,7 @@ export const CHAPTERS = [
   },
   {
     id: 'ch2', num: '2', name: 'Where Paths Forget', biome: 'lost_glades',
+    fragments: 2,
     seed: 'crownless/lost-glades/paths-forget',
     ambience: 'forest', surface: 'grass', accent: '#6fd0a8',
     sky: '#16241f', skyBottom: '#2c4136',
@@ -93,6 +96,7 @@ export const CHAPTERS = [
   },
   {
     id: 'ch3', num: '3', name: 'Graves Under Rain', biome: 'cemetery',
+    fragments: 2,
     seed: 'crownless/cemetery/graves-under-rain',
     ambience: 'wind', surface: 'stone', accent: '#d0704f',
     sky: '#2a1c24', skyBottom: '#4a3038',
@@ -116,6 +120,7 @@ export const CHAPTERS = [
   },
   {
     id: 'ch4', num: '4', name: 'The Closed Gate', biome: 'fortress',
+    fragments: 2,
     seed: 'crownless/fortress/closed-gate',
     ambience: 'wind', surface: 'stone', accent: '#e0c078',
     sky: '#1d2636', skyBottom: '#46516b',
@@ -138,6 +143,7 @@ export const CHAPTERS = [
   },
   {
     id: 'ch5', num: '5', name: 'Below the Crown', biome: 'prison',
+    fragments: 2,
     seed: 'crownless/prison/below-the-crown',
     ambience: 'hall', surface: 'stone', accent: '#7fd0e0',
     sky: '#0f1218', skyBottom: '#1b222c',
@@ -161,6 +167,7 @@ export const CHAPTERS = [
   },
   {
     id: 'ch6', num: '6', name: 'The Black Water', biome: 'sewers',
+    fragments: 2,
     seed: 'crownless/sewers/black-water',
     ambience: 'water', surface: 'stone', accent: '#7fc46a',
     sky: '#0d1410', skyBottom: '#18251c',
@@ -184,6 +191,7 @@ export const CHAPTERS = [
   },
   {
     id: 'ch7', num: '7', name: 'The Violet Tide', biome: 'purple_bay',
+    fragments: 2,
     seed: 'crownless/purple-bay/violet-tide',
     ambience: 'water', surface: 'stone', accent: '#c88ae0',
     sky: '#3a2a55', skyBottom: '#8a6f9e',
@@ -206,6 +214,7 @@ export const CHAPTERS = [
   },
   {
     id: 'ch8', num: '8', name: 'The Sinking Road', biome: 'swamp',
+    fragments: 2,
     seed: 'crownless/swamp/sinking-road',
     ambience: 'water', surface: 'mud', accent: '#9adf5a',
     sky: '#1a2418', skyBottom: '#33422a',
@@ -229,6 +238,7 @@ export const CHAPTERS = [
   },
   {
     id: 'ch9', num: '9', name: 'The Empty Shift', biome: 'mine',
+    fragments: 2,
     seed: 'crownless/mine/empty-shift',
     ambience: 'cave', surface: 'stone', accent: '#e0a050',
     sky: '#14100c', skyBottom: '#241c14',
@@ -255,6 +265,7 @@ export const CHAPTERS = [
   },
   {
     id: 'ch10', num: '10', name: 'The Kingdom Beneath', biome: 'deep_cave',
+    fragments: 2,
     seed: 'crownless/deep-cave/kingdom-beneath',
     ambience: 'cave', surface: 'stone', accent: '#8ab0e0',
     sky: '#07090f', skyBottom: '#12161f',
@@ -280,6 +291,7 @@ export const CHAPTERS = [
   },
   {
     id: 'ch11', num: '11', name: 'The Bone Mountains', biome: 'deadwind',
+    fragments: 2,
     seed: 'crownless/deadwind/bone-mountains',
     ambience: 'wind', surface: 'stone', accent: '#b8d0e0',
     sky: '#1b2430', skyBottom: '#49606f',
@@ -303,6 +315,7 @@ export const CHAPTERS = [
   },
   {
     id: 'ch12', num: '12', name: 'The First Crown', biome: 'temple',
+    fragments: 2,
     seed: 'crownless/temple/first-crown',
     ambience: 'hall', surface: 'stone', accent: '#7fe0c8',
     sky: '#0d1a1c', skyBottom: '#1c3033',
@@ -327,6 +340,7 @@ export const CHAPTERS = [
   },
   {
     id: 'ch13', num: '13', name: 'The Red Silence', biome: 'monastery',
+    fragments: 1,
     seed: 'crownless/monastery/red-silence',
     ambience: 'hall', surface: 'stone', accent: '#e05a5a',
     sky: '#1a0e12', skyBottom: '#3a1e22',
@@ -349,6 +363,7 @@ export const CHAPTERS = [
   },
   {
     id: 'ch14', num: '14', name: "The Usurper's House", biome: 'mansion',
+    fragments: 1,
     seed: 'crownless/mansion/usurpers-house',
     ambience: 'hall', surface: 'stone', accent: '#e0405a',
     sky: '#140a10', skyBottom: '#2e1420',
@@ -371,6 +386,7 @@ export const CHAPTERS = [
   },
   {
     id: 'chE', num: 'E', name: 'Road Rekindled', biome: 'high_forest',
+    fragments: 0,
     seed: 'crownless/high-forest/road-rekindled',
     ambience: 'forest', surface: 'grass', accent: '#ffd97a',
     sky: '#4a6a86', skyBottom: '#9ab4c4',

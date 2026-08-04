@@ -146,6 +146,18 @@ export const CRESTS = {
             blurb: 'Attack 2 staggers armoured enemies that would shrug it off.' },
 };
 
+// Road Ash is Section 5's "common upgrade currency", but the plan never says
+// what it buys -- it assigns Vow tiers to Waystone Shards, a second currency it
+// also never spends. Rather than ship two currencies where one is dead, Road
+// Ash buys Vow tiers at a restored waystone. Section 5's own warning is against
+// "five currencies and a gear inventory full of tiny percentage upgrades", and
+// a tier is a clear behaviour change, not a +2%.
+export const VOW_TIER_COST = [0, 60, 140];
+
+export function vowUpgradeCost(currentLevel) {
+  return VOW_TIER_COST[currentLevel] ?? null;   // null = already at max
+}
+
 export const DIFFICULTIES = {
   pilgrim:  { name: 'Pilgrim',  damageTaken: 0.6, grace: 350, corpseRecovery: false,
               blurb: 'For the journey. Damage reduced, grace extended.' },

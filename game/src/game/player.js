@@ -184,6 +184,10 @@ export class Player {
     if (this.state !== S.DEAD || !this.grounded) {
       this.vy = Math.min(MOVE.maxFall * (this.inWater ? 0.5 : 1), this.vy + grav * dt);
     }
+    // Chapter 11's gusts act on the body, not on the input: they bend a jump
+    // arc rather than taking control away, which is what makes gust timing a
+    // decision instead of a punishment.
+    if (world.wind) this.vx += world.wind.forceOn(this) * dt;
     const vx = (this.vx + this.knockVx) * (this.inWater ? 0.7 : 1);
     const dropThrough = In.down('down') && In.down('jump');
     const r = moveBody(world.map, this, vx * dt, this.vy * dt, { dropThrough });

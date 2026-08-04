@@ -15,7 +15,7 @@ not approval*, and every gate below still wants a human pass.
 | 5 | Chapter pipeline | **Done** | Chapters 1–2 built by the same composer as the rest |
 | 6 | Content production | **Done** | All 15 chapters + epilogue compose and are playable |
 | 7 | Boss + finale | **Partial** | Five bosses with real phase behaviour, but on existing silhouettes. Section 6's art gate is **not** cleared. |
-| 8 | Polish + QA | **Partial** | 31 automated checks pass; no human playtests |
+| 8 | Polish + QA | **Partial** | 43 automated checks pass; no human playtests |
 
 ## Section 13 release checklist
 
@@ -49,6 +49,31 @@ Checked automatically for all 16 chapters by `tools/verify.mjs`:
   autosave and slot path
 - keyboard and gamepad prompts update on device change — **yes**, `InputService`
   fires a device-change event and prompts re-read the glyph each frame
+
+## Systems added after first playable
+
+Found by playtesting with real input rather than by reading the code:
+
+- **Bees were unhittable.** Their lane sat two pixels above the top of the
+  attack box, so a grounded swing could never connect while looking correct on
+  screen. Lane height reduced; a per-enemy reachability assertion now guards it.
+- **Armour nullified instead of resisting.** A light hit against an armoured
+  enemy dealt `round(1 x 0.25) = 0`, which made the snail invulnerable during
+  the shell it enters whenever you are close enough to swing, and the boar
+  warrior a wall with no feedback. Armour now chips for at least 1.
+- **Contact damage during tells and recovery** meant the vulnerable window
+  Section 6 asks for did not exist, and a hovering bee was a permanent damage
+  aura that could kill a full-health player in the tutorial.
+- **Declared hazards did not exist.** `hazard: 'falling'` and `hazard: 'wind'`
+  were in the chapter data and implemented nowhere; worse, they fell through to
+  the poison branch and laid damaging floor tiles. Both are now real: authored
+  falling branches with a shudder-and-strike-line telegraph, and a gust cycle
+  that bends jump arcs after a warning.
+- **Health fragments** were placed by a modulo on the beat index, giving about
+  six across the campaign against Appendix B's target of 20-28. Each chapter now
+  carries an authored quota; 27 are placed at fixed locations.
+- **Road Ash had nothing to buy.** It is now spent on Vow tiers at a restored
+  waystone, which is the loop Section 5 describes but never closes.
 
 Still needing a human: foreground readability, audio zone transitions, encounter
 pacing, and whether any of it is actually fun.

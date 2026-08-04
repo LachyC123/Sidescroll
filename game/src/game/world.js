@@ -15,6 +15,7 @@ import { Player, S, playerClips } from './player.js';
 import { Enemy, clipsFor } from './enemy.js';
 import { BOSSES, ENEMIES, VARIANTS } from './enemydata.js';
 import { composeChapter } from './compose.js';
+import { Wind, Faller } from './hazards.js';
 import { WAYSTONE_LINES, actFor, BY_ID } from './chapters.js';
 import { DIFFICULTIES, COMBAT } from './tuning.js';
 import { settings } from '../core/settings.js';
@@ -40,6 +41,9 @@ export class World {
     this.arena = null;
     this.boss = null;
     this.bossBar = 0;
+    // the chapter's environmental pressure (Section 6)
+    this.wind = ch.hazard === 'wind' ? new Wind() : null;
+    this.fallers = [];
 
     this.hitStopMs = 0;
     this.camera = new Camera();
@@ -102,6 +106,9 @@ export class World {
         case 'secret':
           this.secretsList.push({ ...e, found: (this.save.world.chapter_secret_flags[this.ch.id] || []).includes(e.id) });
           break;
+        case 'faller':
+          this.fallers.push(new Faller(e));
+          break;
         case 'arena':
           this.arenaDef = e;
           break;
@@ -158,6 +165,7 @@ export class World {
   respawn() {
     this.enemies.length = 0;
     this.pickups.length = 0;
+    this.fallers.length = 0;
     this.spawnEntities();
     this.player.health = this.player.maxHealth;
     this.player.healCharges = Math.max(1, this.player.healCharges);
@@ -217,6 +225,8 @@ export class World {
         const e = this.enemies[i];
         if (e.dead && performance.now() > e.removeAt) this.enemies.splice(i, 1);
       }
+      if (this.wind) this.wind.update(dt, this);
+      for (const f of this.fallers) f.update(dt, this);
       this.updatePickups(dt);
       this.updateWaystones(dt);
       this.updateArena(dt);
@@ -398,11 +408,18 @@ export class World {
   setBanner(t, dur) { this.banner = { text: t, t: 0, dur: dur || 2.5 }; }
 
   // ------------------------------------------------------------ interactions
+  /** The waystone the player is standing at, if any. */
+  waystoneAt(p) {
+    return this.waystones.find(
+      (w) => Math.abs(p.cx - w.x) < 22 && Math.abs(p.feetY - w.y) < 24) || null;
+  }
+
   tryInteract(p) {
-    for (const w of this.waystones) {
-      if (Math.abs(p.cx - w.x) < 22 && Math.abs(p.feetY - w.y) < 24) return true;
-    }
-    return false;
+    const w = this.waystoneAt(p);
+    if (!w) return false;
+    // A restored waystone is where the road is spent: Road Ash buys Vow tiers.
+    if (w.lit && this.onWaystoneMenu) this.onWaystoneMenu(w);
+    return true;
   }
 
   checkExit() {
@@ -429,8 +446,17 @@ export class World {
    * is demonstrated rather than on a timer, and never shown again once done.
    */
   updatePrompts() {
-    if (!this.ch.tutorial || !settings.gameplay.tutorialPrompts) { this.prompt = null; return; }
     const p = this.player;
+
+    // The vow altar prompt is not a tutorial prompt: a restored waystone is
+    // usable in every chapter, so it must not be gated behind the opening
+    // chapter or behind the tutorial-prompt setting.
+    const here = this.waystoneAt(p);
+    if (here && here.lit && p.alive) {
+      return this.setPrompt('altar', 'VOWS', ['interact'], here.x, here.y - 32);
+    }
+
+    if (!this.ch.tutorial || !settings.gameplay.tutorialPrompts) { this.prompt = null; return; }
     const done = this.save.world.tutorial_steps;
     const step = (id) => done.includes(id);
     const finish = (id) => { if (!step(id)) done.push(id); this.prompt = null; };
@@ -498,6 +524,7 @@ export class World {
     this.drawWaystones(ctx, camX, camY);
     this.drawPickups(ctx, camX, camY);
 
+    for (const f of this.fallers) f.draw(ctx, camX, camY);
     for (const e of this.enemies) {
       if (e.dormant) continue;
       e.draw(ctx, camX, camY, this.debug);
@@ -507,6 +534,7 @@ export class World {
 
     this.drawDecor(ctx, camX, camY, 'fore');
     if (this.foreground) this.foreground.draw(ctx, camX, camY);
+    if (this.wind) this.wind.draw(ctx);
     if (this.ch.dark) this.drawDarkness(ctx, camX, camY);
     if (this.ch.weather === 'rain') this.drawRain(ctx);
 

@@ -18,14 +18,14 @@ import { PAL } from './ui/menu.js';
 import {
   BootScreen, TitleScreen, NewGameScreen, SlotScreen, PauseScreen, SettingsScreen,
   AccessScreen, ControlsScreen, DeathScreen, ChapterCompleteScreen, CreditsScreen,
-  EndingScreen,
+  EndingScreen, WaystoneScreen,
 } from './ui/screens.js';
 
 const SCREENS = {
   boot: BootScreen, title: TitleScreen, newgame: NewGameScreen, slots: SlotScreen,
   pause: PauseScreen, settings: SettingsScreen, access: AccessScreen,
   controls: ControlsScreen, death: DeathScreen, chapdone: ChapterCompleteScreen,
-  credits: CreditsScreen, ending: EndingScreen,
+  credits: CreditsScreen, ending: EndingScreen, waystone: WaystoneScreen,
 };
 
 class Flow {
@@ -48,7 +48,7 @@ class Flow {
     if (name === 'pause' && this.screenName === 'pause') return;
     const C = SCREENS[name];
     if (!C) throw new Error('no screen ' + name);
-    if (name === 'pause') args.world = this.world;
+    if (name === 'pause' || name === 'waystone') args.world = this.world;
     this.screenName = name;
     this.screen = new C(this, args);
     if (name === 'title') { this.world = null; Audio.stopMusic(); Audio.setAmbience(null); }
@@ -97,6 +97,7 @@ class Flow {
     this.world.onDeath = () => this.go('death');
     this.world.onComplete = () => this.finishChapter();
     this.world.onCheckpoint = () => this.autosave();
+    this.world.onWaystoneMenu = () => { this.paused = true; this.go('waystone'); };
     this.chapterStart = this.save.profile.play_time;
     this.startAsh = this.save.player.road_ash;
     this.closeScreen();

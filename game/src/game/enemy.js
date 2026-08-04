@@ -90,7 +90,13 @@ export class Enemy {
     }
     if (opts.effect === 'stagger') armoured = false;
 
-    const dealt = armoured ? Math.max(0, Math.round(dmg * 0.25)) : Math.round(dmg);
+    // Armour resists, it does not nullify. At 0.25x a light hit rounded to
+    // exactly zero, which made the snail invulnerable during the shell it
+    // enters whenever the player is close enough to swing, and turned the boar
+    // warrior into a wall with no feedback. Section 6 wants armour to change
+    // the player's approach -- chip with Attack 1, break it open with Attack 2
+    // -- not to make a swing worthless.
+    const dealt = armoured ? Math.max(1, Math.round(dmg * 0.34)) : Math.round(dmg);
     this.health -= dealt;
     this.flashT = COMBAT.enemyFlashMs;
 
@@ -476,10 +482,17 @@ export class Enemy {
   // ------------------------------------------------------------- contact
   touchPlayer(world, p) {
     if (this.dead || !p || !p.alive) return;
-    if (this.state === 'tell' || this.state === 'recover') {
-      // wind-up and recovery are not damaging: the tell must be answerable
-      if (this.data.ai !== 'charger') return;
-    }
+
+    // The wind-up is the question and the recovery is the answer, so neither
+    // may damage on contact -- otherwise standing your ground during a tell is
+    // punished and the vulnerable window Section 6 asks for does not exist.
+    if (this.state === 'tell' || this.state === 'recover' || this.state === 'stagger') return;
+
+    // A flyer's attack *is* its dive. Left as a permanent damage aura, a single
+    // bee could kill a full-health player in the tutorial simply by hovering
+    // where they were standing.
+    if (this.data.ai === 'flyer' && this.state !== 'dive') return;
+
     if (!world.overlapsPlayer(this.box)) return;
     const dir = Math.sign(p.cx - this.cx) || this.facing;
     p.hurt(this.data.contactDamage, dir, world, 'contact');

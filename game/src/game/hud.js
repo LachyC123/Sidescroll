@@ -112,6 +112,16 @@ export function drawHUD(ctx, world) {
     ctx.globalAlpha = 1;
   }
 
+  // Gust warning. Section 6 forbids an unannounced hit, and a gust that bends
+  // a jump mid-air is exactly that unless the direction is readable first.
+  const gust = world.wind && world.wind.warning;
+  if (gust) {
+    const k = (Math.sin(world.time * 9) + 1) / 2;
+    ctx.globalAlpha = 0.55 + k * 0.45;
+    text(ctx, gust, W / 2, 46, { align: 'centre', colour: '#cfe0ee', shadow: '#000' });
+    ctx.globalAlpha = 1;
+  }
+
   // secret proximity pulse from the Vow of Bells: a soft UI cue, not a marker
   if (world.secretPulse > 0) {
     ctx.globalAlpha = Math.min(0.6, world.secretPulse);

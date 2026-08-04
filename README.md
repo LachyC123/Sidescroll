@@ -30,7 +30,9 @@ Settings → Controls.
 |---|---|
 | Engine | Canvas 2D, 384×216 internal canvas, integer scaling, nearest-neighbour only. No framework, no bundler. |
 | Campaign | 15 environment chapters + epilogue, every pack given a real role |
-| Enemies | 8 asset-backed silhouettes, 5 boss encounters |
+| Enemies | 8 asset-backed silhouettes, 5 phase-based boss encounters |
+| Pressures | falling branches, gusting wind, poison, water, darkness, rain |
+| Economy | Road Ash buys Vow tiers at waystones; 27 fixed Health Fragments |
 | UI | boot, title, 3 save slots + autosave, pause, road, vows, journal, settings, accessibility, rebinding, death, chapter complete, credits |
 | Audio | fully synthesised at runtime with WebAudio — no audio files ship in the collection |
 
@@ -73,8 +75,10 @@ node tools/verify.mjs
 
 This drives the real game in Chromium — boot, menu navigation by keyboard,
 movement, jump, attack, combat resolution, traversal, pause, death, respawn,
-save, reload, continue, boss phases, the Chapter 5 disarmed opening — and
-asserts that all 16 chapters compose with ground, checkpoints and decoration.
+save, reload, continue, boss phases, per-enemy reachability, the wind and
+falling-branch hazards, fragment quotas, the vow altar and the Chapter 5
+disarmed opening — and asserts that all 16 chapters compose with ground,
+checkpoints and decoration.
 It writes screenshots to `shots/`; the copies in `docs/evidence/` are the
 Section 12 gate evidence.
 

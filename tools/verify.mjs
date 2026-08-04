@@ -173,6 +173,53 @@ check('attack state entered', /Attack/.test(atk.pstate || ''), atk.pstate);
 await shot('08-attack');
 await page.waitForTimeout(700);
 
+// ------------------------------------------------- every enemy is reachable
+// The property that matters is geometric: standing on the same ground, can a
+// grounded Attack 1 actually touch this enemy's body? A bee sitting two pixels
+// above the top of the attack box was unhittable in play while looking
+// perfectly fine on screen, so this is asserted per enemy rather than assumed.
+const reach = await page.evaluate(async () => {
+  const f = window.__crownless, w = f.world;
+  const { Enemy, clipsFor } = await import('./src/game/enemy.js');
+  const { ENEMIES } = await import('./src/game/enemydata.js');
+  const { COMBAT } = await import('./src/game/tuning.js');
+  const out = [];
+  for (const kind of Object.keys(ENEMIES)) {
+    const clips = clipsFor(kind, f.res.clips.enemies);
+    if (!clips) { out.push({ kind, err: 'no clips' }); continue; }
+    const p = w.player;
+    const e = new Enemy(kind, p.cx + 40, p.feetY, clips, { facing: -1 });
+    // resting on the same ground, directly in front, at the edge of reach
+    e.x = p.x + p.w + 1;
+    e.y = p.feetY - e.h;
+    if (ENEMIES[kind].ai === 'flyer') e.y = (e.laneY ?? p.cy) - e.h / 2;
+    const hit = [];
+    for (const which of ['attack1', 'attack2']) {
+      const cfg = COMBAT[which];
+      const box = { x: p.x + p.w - 2, y: p.cy + cfg.yOffset, w: cfg.reach, h: cfg.height };
+      hit.push(box.x < e.x + e.w && box.x + box.w > e.x
+               && box.y < e.y + e.h && box.y + box.h > e.y);
+    }
+    // and it must actually lose health to a light swing, not just overlap
+    const before = e.health;
+    w.enemies.push(e);
+    w.damageEnemies({ x: p.x + p.w - 2, y: p.cy - 11, w: 20, h: 18 },
+                    { damage: 1, knockback: 60, dirX: 1, pass: 5000 + out.length, source: p });
+    const after = e.health;
+    e.kill();
+    out.push({ kind, a1: hit[0], a2: hit[1], before, after, dropped: after < before });
+  }
+  return out;
+});
+for (const r of reach) {
+  const ok = r.a1 && r.a2 && r.dropped;
+  console.log(`   ${ok ? 'ok ' : 'BAD'} ${r.kind.padEnd(14)} attack1=${r.a1} attack2=${r.a2}`
+    + ` hp ${r.before}->${r.after}`);
+}
+check('every enemy is reachable by a grounded swing',
+      reach.every((r) => r.a1 && r.a2 && r.dropped),
+      reach.filter((r) => !(r.a1 && r.a2 && r.dropped)).map((r) => r.kind).join(', '));
+
 // ------------------------------------------------------- combat resolves
 // Put an enemy in reach and confirm a swing actually damages and kills it,
 // rather than trusting that the state machine entered Attack1.
@@ -326,6 +373,59 @@ for (const c of chapters) {
   await shot('ch-' + c.id);
 }
 
+// --------------------------------------------- environmental pressures
+// Chapter data declares a hazard per chapter; these assert the declared ones
+// actually exist at runtime, which is the same class of bug as the boss beat
+// that composed nothing.
+const haz = await page.evaluate(() => {
+  const f = window.__crownless;
+  const out = {};
+  // falling branches
+  f.save.progress.current_checkpoint_id = 'ch1.entry';
+  f.enterChapter('ch1');
+  let w = f.world;
+  const fa = w.fallers[0];
+  let states = new Set();
+  if (fa) {
+    w.player.x = fa.x - 5; w.player.y = fa.y + 70; w.player.hurtGrace = 0;
+    const y0 = fa.y;
+    for (let i = 0; i < 70; i++) { w.update(1 / 60); states.add(fa.state); }
+    out.faller = { count: w.fallers.length, moved: fa.y !== y0, states: [...states] };
+  } else out.faller = { count: 0 };
+  let hz = 0;
+  for (let i = 0; i < w.map.col.length; i++) if (w.map.col[i] === 3) hz++;
+  out.fallerGroundHazards = hz;
+
+  // wind
+  f.save.progress.current_checkpoint_id = 'ch11.entry';
+  f.enterChapter('ch11');
+  w = f.world;
+  const phases = new Set();
+  let warned = false, maxF = 0;
+  for (let i = 0; i < 60 * 22; i++) {
+    w.update(1 / 60);
+    phases.add(w.wind.phase);
+    maxF = Math.max(maxF, Math.abs(w.wind.force));
+    if (w.wind.warning) warned = true;
+  }
+  const p = w.player;
+  p.vx = 0; p.vy = -200; p.grounded = false;
+  const x0 = p.x;
+  for (let i = 0; i < 30; i++) { w.wind.force = 190; p.integrate(1 / 60, w); }
+  out.wind = { phases: [...phases], warned, maxF: Math.round(maxF),
+               bend: Math.round(p.x - x0) };
+  return out;
+});
+check('falling branches exist and drop', haz.faller.count > 0 && haz.faller.moved
+      && haz.faller.states.length >= 2, JSON.stringify(haz.faller));
+check('a falling-branch chapter lays no hazard floor', haz.fallerGroundHazards === 0,
+      'tiles=' + haz.fallerGroundHazards);
+check('wind cycles calm -> tell -> gust', haz.wind.phases.length === 3,
+      haz.wind.phases.join(','));
+check('a gust is warned before it bites', haz.wind.warned === true);
+check('a gust bends an airborne jump', Math.abs(haz.wind.bend) > 8,
+      'dx=' + haz.wind.bend);
+
 // ------------------------------------------------------------- boss phases
 const boss = await page.evaluate(() => {
   const f = window.__crownless;
@@ -350,6 +450,64 @@ if (boss.ok) {
   const tells = boss.seen.map((s) => s.tell);
   check('boss tells shorten as it escalates', tells[2] < tells[0], tells.join(' -> '));
 }
+
+// ------------------------------------------- fragments and the vow altar
+const frag = await page.evaluate(async () => {
+  const f = window.__crownless;
+  const mod = await import('./src/game/chapters.js');
+  let total = 0;
+  const bad = [];
+  const ids = new Set();
+  for (const ch of mod.CHAPTERS) {
+    f.save.world.collected_fragment_ids = [];
+    f.save.progress.current_checkpoint_id = ch.id + '.entry';
+    f.enterChapter(ch.id);
+    const got = f.world.c.entities.filter((e) => e.type === 'fragment');
+    total += got.length;
+    if (got.length !== (ch.fragments || 0)) bad.push(`${ch.id} ${got.length}/${ch.fragments || 0}`);
+    for (const g of got) { if (ids.has(g.id)) bad.push('dup ' + g.id); ids.add(g.id); }
+  }
+  return { total, bad };
+});
+check('health fragments hit the Appendix B target', frag.total >= 20 && frag.total <= 28,
+      frag.total + ' placed');
+check('every chapter places exactly its fragment quota, with unique ids',
+      frag.bad.length === 0, frag.bad.join(', '));
+
+const altar = await page.evaluate(() => {
+  const f = window.__crownless;
+  f.save.progress.current_checkpoint_id = 'ch0.entry';
+  f.enterChapter('ch0');
+  const w = f.world;
+  const ws = w.waystones[0];
+  w.player.x = ws.x - 5; w.player.y = ws.y - 22;
+  w.player.roadAsh = 200;
+  for (let i = 0; i < 20; i++) w.update(1 / 60);
+  const promptId = w.prompt && w.prompt.id;
+  w.tryInteract(w.player);                    // opens the altar
+  const opened = f.screenName;
+  const s = f.screen;
+  const before = { ash: w.player.roadAsh, lvl: w.player.vowLevels.ash || 1 };
+  const i = s.menu.items.findIndex((it) => it.label === 'ASH');
+  if (i >= 0) s.menu.items[i].onSelect();
+  const after = { ash: w.player.roadAsh, lvl: w.player.vowLevels.ash };
+  // a purchase the player cannot afford must be refused, not go negative
+  w.player.roadAsh = 5;
+  const j = s.menu.items.findIndex((it) => it.label === 'REED');
+  const poorBefore = w.player.roadAsh;
+  if (j >= 0) s.menu.items[j].onSelect();
+  return { promptId, opened, before, after, saved: f.save.build.vow_levels.ash,
+           refused: w.player.roadAsh === poorBefore };
+});
+await shot('20-waystone');
+check('a lit waystone prompts its altar', altar.promptId === 'altar', altar.promptId);
+check('the altar opens on interact', altar.opened === 'waystone', altar.opened);
+check('road ash buys a vow tier and persists',
+      altar.after.lvl === altar.before.lvl + 1
+      && altar.after.ash === altar.before.ash - 60
+      && altar.saved === altar.after.lvl,
+      `${altar.before.ash}->${altar.after.ash} ash, tier ${altar.before.lvl}->${altar.after.lvl}`);
+check('an unaffordable purchase is refused without going negative', altar.refused === true);
 
 // ------------------------------------------------- disarmed opening (ch5)
 const strip = await page.evaluate(() => {

@@ -20,7 +20,10 @@ export const ENEMIES = {
     name: 'Small Bee', role: 'Flying harasser',
     health: 2, contactDamage: 1, speed: 34, ai: 'flyer',
     body: { w: 12, h: 12 }, drawScale: 1, ash: 4,
-    laneHeight: 30, tell: 380, diveSpeed: 120, cooldown: 1500,
+    // The lane must sit inside the reach of a grounded swing. At 30 the bee
+    // hovered exactly 2px above the top of the attack box and was literally
+    // unhittable without a jump the player has no reason to make.
+    laneHeight: 22, tell: 380, diveSpeed: 120, cooldown: 1500,
     clips: { fly: 'fly', attack: 'attack', hit: 'hit', dead: 'hit' },
     sound: 'impact_flesh',
     blurb: 'Attacks down a clear lane; never spawns off-camera into a hit.',

@@ -12,7 +12,7 @@ import { SLOTS, AUTOSAVE_SLOT, slotSummary, formatTime, deleteSlot, mostRecentSl
   from '../core/save.js';
 import { Menu, PAL, panel, title, footer, tabs } from './menu.js';
 import { CHAPTERS, BY_ID } from '../game/chapters.js';
-import { VOWS, CRESTS, DIFFICULTIES } from '../game/tuning.js';
+import { VOWS, CRESTS, DIFFICULTIES, vowUpgradeCost } from '../game/tuning.js';
 
 // --------------------------------------------------------------------- boot
 export class BootScreen {
@@ -266,7 +266,8 @@ export class PauseScreen {
       const cur = p.vows[slot];
       items.push({
         label: `SLOT ${slot + 1}`, kind: 'choice',
-        value: () => cur ? VOWS[p.vows[slot]].name.replace('VOW OF ', '') : 'EMPTY',
+        value: () => (p.vows[slot]
+          ? VOWS[p.vows[slot]].name.replace(/^vow of /i, '') : 'EMPTY'),
         hint: () => '',
         onChange: (d) => {
           const avail = [null, ...ids.filter((v) => !p.vows.includes(v) || p.vows[slot] === v)];
@@ -608,6 +609,88 @@ export class ChapterCompleteScreen {
     if (s.unlock) text(ctx, 'UNLOCKED  ' + s.unlock, W / 2, 122, { align: 'centre', colour: PAL.good });
     this.menu.draw(ctx, W / 2 - 45, 146, { width: 90, lineHeight: 13 });
     ctx.globalAlpha = 1;
+  }
+}
+
+// ------------------------------------------------------------- vow altar
+/**
+ * The waystone altar: where Road Ash is actually spent.
+ *
+ * Section 5 calls Road Ash the common upgrade currency but never says what it
+ * buys, and assigns Vow tiers to a second currency it also never spends. This
+ * spends Ash on tiers, so the loop closes with one legible currency. Each tier
+ * changes a stated behaviour, never a percentage.
+ */
+export class WaystoneScreen {
+  constructor(flow, args = {}) {
+    this.flow = flow;
+    this.world = args.world || flow.world;
+    this.msg = null;
+    this.msgT = 0;
+    this.rebuild();
+  }
+  rebuild() {
+    const p = this.world.player;
+    const items = [];
+    for (const id of Object.keys(VOWS)) {
+      const known = p.vowLevels[id] !== undefined || p.vows.includes(id);
+      const lvl = p.vowLevels[id] || (known ? 1 : 0);
+      const cost = lvl >= 1 ? vowUpgradeCost(lvl) : null;
+      const v = VOWS[id];
+      items.push({
+        label: v.name.replace(/^vow of /i, '').toUpperCase(),
+        value: () => !known ? 'UNFOUND'
+                   : cost === null ? `TIER ${lvl} MAX`
+                   : `TIER ${lvl}  ${cost} ASH`,
+        locked: !known,
+        disabled: false,
+        hint: known ? `${v.role.toUpperCase()} -- ${v.blurb}`
+                    : 'Not yet found on the road.',
+        onSelect: () => {
+          if (!known) { this.flash('THE ROAD HAS NOT SHOWN YOU THIS VOW'); return; }
+          if (cost === null) { this.flash('ALREADY AT ITS FULL DEPTH'); return; }
+          if (p.roadAsh < cost) { this.flash(`NEEDS ${cost - p.roadAsh} MORE ROAD ASH`); return; }
+          p.roadAsh -= cost;
+          p.vowLevels[id] = lvl + 1;
+          p.writeTo(this.flow.save);
+          this.flow.autosave();
+          sfx('waystone');
+          this.flash(`${v.name.toUpperCase()} DEEPENS TO TIER ${lvl + 1}`);
+          this.rebuild();
+        },
+      });
+    }
+    items.push({ separator: true });
+    items.push({ label: 'LEAVE', onSelect: () => this.flow.resume() });
+    const keep = this.menu ? this.menu.i : 0;
+    this.menu = new Menu('altar', items, { onCancel: () => this.flow.resume() });
+    this.menu.i = Math.min(keep, items.length - 1);
+    this.menu.ensureValid(1);
+  }
+  flash(m) { this.msg = m; this.msgT = 0; sfx(m.startsWith('NEEDS') ? 'ui_invalid' : 'ui_confirm'); }
+  update(dt) {
+    if (this.msg) { this.msgT += dt; if (this.msgT > 2.4) this.msg = null; }
+    this.menu.update(dt);
+  }
+  draw(ctx) {
+    ctx.fillStyle = 'rgba(6,5,10,0.86)';
+    ctx.fillRect(0, 0, W, H);
+    title(ctx, 'WAYSTONE', 12);
+    const p = this.world.player;
+    text(ctx, `ROAD ASH  ${p.roadAsh}`, W / 2, 26, { align: 'centre', colour: PAL.accent });
+    panel(ctx, 26, 38, W - 52, 92);
+    this.menu.draw(ctx, 38, 46, { width: W - 76, lineHeight: 12 });
+    const it = this.menu.current;
+    if (it && it.hint) {
+      textBlock(ctx, it.hint, 26, 136, W - 52, { colour: PAL.dim });
+    }
+    if (this.msg) {
+      const a = this.msgT > 2.0 ? Math.max(0, (2.4 - this.msgT) / 0.4) : 1;
+      ctx.globalAlpha = a;
+      text(ctx, this.msg, W / 2, H - 26, { align: 'centre', colour: PAL.good, shadow: '#000' });
+      ctx.globalAlpha = 1;
+    }
+    footer(ctx, [['attack', 'DEEPEN'], ['cancel', 'LEAVE']]);
   }
 }
 
