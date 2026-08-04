@@ -1,0 +1,454 @@
+{
+ "results": [
+  {
+   "name": "game boots and exposes flow",
+   "ok": true
+  },
+  {
+   "name": "reaches title screen",
+   "ok": true,
+   "detail": "title"
+  },
+  {
+   "name": "opens new game screen",
+   "ok": true,
+   "detail": "newgame"
+  },
+  {
+   "name": "opens slot screen",
+   "ok": true,
+   "detail": "slots"
+  },
+  {
+   "name": "enters chapter 0",
+   "ok": true,
+   "detail": "ch0"
+  },
+  {
+   "name": "chapter has geometry",
+   "ok": true,
+   "detail": "width=302"
+  },
+  {
+   "name": "chapter has checkpoints",
+   "ok": true,
+   "detail": "n=1"
+  },
+  {
+   "name": "chapter has decoration",
+   "ok": true,
+   "detail": "n=34"
+  },
+  {
+   "name": "player moves right",
+   "ok": true,
+   "detail": "91 -> 158"
+  },
+  {
+   "name": "player leaves the ground",
+   "ok": true,
+   "detail": "Airborne"
+  },
+  {
+   "name": "player lands again",
+   "ok": true,
+   "detail": "state=GroundedIdle"
+  },
+  {
+   "name": "attack state entered",
+   "ok": true,
+   "detail": "Attack1"
+  },
+  {
+   "name": "every enemy is reachable by a grounded swing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "a swing damages an enemy",
+   "ok": true,
+   "detail": "3 -> 2, hits=1"
+  },
+  {
+   "name": "sustained hits kill it",
+   "ok": true
+  },
+  {
+   "name": "a kill awards road ash",
+   "ok": true,
+   "detail": "ash=3"
+  },
+  {
+   "name": "player traverses a long distance",
+   "ok": true,
+   "detail": "184 -> 566 screen=null"
+  },
+  {
+   "name": "pause opens",
+   "ok": true,
+   "detail": "pause"
+  },
+  {
+   "name": "settings opens from pause",
+   "ok": true,
+   "detail": "settings"
+  },
+  {
+   "name": "all 16 chapters compose",
+   "ok": true
+  },
+  {
+   "name": "falling branches exist and drop",
+   "ok": true,
+   "detail": "{\"count\":3,\"moved\":true,\"states\":[1,2,3]}"
+  },
+  {
+   "name": "a falling-branch chapter lays no hazard floor",
+   "ok": true,
+   "detail": "tiles=0"
+  },
+  {
+   "name": "wind cycles calm -> tell -> gust",
+   "ok": true,
+   "detail": "calm,tell,gust"
+  },
+  {
+   "name": "a gust is warned before it bites",
+   "ok": true
+  },
+  {
+   "name": "a gust bends an airborne jump",
+   "ok": true,
+   "detail": "dx=25"
+  },
+  {
+   "name": "final boss exists with phases",
+   "ok": true,
+   "detail": "The Blood Regent hp=88"
+  },
+  {
+   "name": "boss tells shorten as it escalates",
+   "ok": true,
+   "detail": "620 -> 520 -> 440"
+  },
+  {
+   "name": "health fragments hit the Appendix B target",
+   "ok": true,
+   "detail": "27 placed"
+  },
+  {
+   "name": "every chapter places exactly its fragment quota, with unique ids",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "a lit waystone prompts its altar",
+   "ok": true,
+   "detail": "altar"
+  },
+  {
+   "name": "the altar opens on interact",
+   "ok": true,
+   "detail": "waystone"
+  },
+  {
+   "name": "road ash buys a vow tier and persists",
+   "ok": true,
+   "detail": "200->140 ash, tier 1->2"
+  },
+  {
+   "name": "an unaffordable purchase is refused without going negative",
+   "ok": true
+  },
+  {
+   "name": "chapter 5 opens disarmed",
+   "ok": true
+  },
+  {
+   "name": "attacking is refused while disarmed",
+   "ok": true
+  },
+  {
+   "name": "the cell waystone returns the kit",
+   "ok": true
+  },
+  {
+   "name": "the strip never reaches the save file",
+   "ok": true,
+   "detail": "[\"ash\",null,null]"
+  },
+  {
+   "name": "death screen appears",
+   "ok": true,
+   "detail": "death"
+  },
+  {
+   "name": "respawn returns to play",
+   "ok": true,
+   "detail": null
+  },
+  {
+   "name": "save slot written",
+   "ok": true,
+   "detail": "v3"
+  },
+  {
+   "name": "continue is offered after reload",
+   "ok": true,
+   "detail": "title"
+  },
+  {
+   "name": "continue restores a world",
+   "ok": true,
+   "detail": "chapter=ch5"
+  },
+  {
+   "name": "no console errors",
+   "ok": true,
+   "detail": ""
+  }
+ ],
+ "chapters": [
+  {
+   "id": "ch0",
+   "name": "The Last Village",
+   "biome": "high_forest",
+   "ok": true,
+   "ms": 7,
+   "width": 302,
+   "solid": 5133,
+   "enemies": 5,
+   "decor": 34,
+   "checkpoints": 1,
+   "secrets": 1,
+   "boss": false,
+   "spawnOk": true
+  },
+  {
+   "id": "ch1",
+   "name": "The Waking Trees",
+   "biome": "dusk_wood",
+   "ok": true,
+   "ms": 3,
+   "width": 274,
+   "solid": 3362,
+   "enemies": 6,
+   "decor": 40,
+   "checkpoints": 1,
+   "secrets": 1,
+   "boss": false,
+   "spawnOk": true
+  },
+  {
+   "id": "ch2",
+   "name": "Where Paths Forget",
+   "biome": "lost_glades",
+   "ok": true,
+   "ms": 6,
+   "width": 268,
+   "solid": 3491,
+   "enemies": 6,
+   "decor": 34,
+   "checkpoints": 1,
+   "secrets": 2,
+   "boss": false,
+   "spawnOk": true
+  },
+  {
+   "id": "ch3",
+   "name": "Graves Under Rain",
+   "biome": "cemetery",
+   "ok": true,
+   "ms": 4,
+   "width": 234,
+   "solid": 3507,
+   "enemies": 5,
+   "decor": 31,
+   "checkpoints": 1,
+   "secrets": 1,
+   "boss": false,
+   "spawnOk": true
+  },
+  {
+   "id": "ch4",
+   "name": "The Closed Gate",
+   "biome": "fortress",
+   "ok": true,
+   "ms": 2,
+   "width": 234,
+   "solid": 3892,
+   "enemies": 5,
+   "decor": 24,
+   "checkpoints": 1,
+   "secrets": 1,
+   "boss": true,
+   "spawnOk": true
+  },
+  {
+   "id": "ch5",
+   "name": "Below the Crown",
+   "biome": "prison",
+   "ok": true,
+   "ms": 4,
+   "width": 232,
+   "solid": 6976,
+   "enemies": 8,
+   "decor": 39,
+   "checkpoints": 1,
+   "secrets": 1,
+   "boss": false,
+   "spawnOk": true
+  },
+  {
+   "id": "ch6",
+   "name": "The Black Water",
+   "biome": "sewers",
+   "ok": true,
+   "ms": 3,
+   "width": 232,
+   "solid": 6986,
+   "enemies": 9,
+   "decor": 42,
+   "checkpoints": 1,
+   "secrets": 1,
+   "boss": false,
+   "spawnOk": true
+  },
+  {
+   "id": "ch7",
+   "name": "The Violet Tide",
+   "biome": "purple_bay",
+   "ok": true,
+   "ms": 3,
+   "width": 234,
+   "solid": 3140,
+   "enemies": 7,
+   "decor": 30,
+   "checkpoints": 1,
+   "secrets": 1,
+   "boss": false,
+   "spawnOk": true
+  },
+  {
+   "id": "ch8",
+   "name": "The Sinking Road",
+   "biome": "swamp",
+   "ok": true,
+   "ms": 3,
+   "width": 232,
+   "solid": 3824,
+   "enemies": 5,
+   "decor": 37,
+   "checkpoints": 1,
+   "secrets": 1,
+   "boss": true,
+   "spawnOk": true
+  },
+  {
+   "id": "ch9",
+   "name": "The Empty Shift",
+   "biome": "mine",
+   "ok": true,
+   "ms": 2,
+   "width": 232,
+   "solid": 6901,
+   "enemies": 7,
+   "decor": 33,
+   "checkpoints": 1,
+   "secrets": 1,
+   "boss": false,
+   "spawnOk": true
+  },
+  {
+   "id": "ch10",
+   "name": "The Kingdom Beneath",
+   "biome": "deep_cave",
+   "ok": true,
+   "ms": 5,
+   "width": 234,
+   "solid": 19989,
+   "enemies": 9,
+   "decor": 47,
+   "checkpoints": 1,
+   "secrets": 1,
+   "boss": false,
+   "spawnOk": true
+  },
+  {
+   "id": "ch11",
+   "name": "The Bone Mountains",
+   "biome": "deadwind",
+   "ok": true,
+   "ms": 1,
+   "width": 236,
+   "solid": 2716,
+   "enemies": 6,
+   "decor": 33,
+   "checkpoints": 1,
+   "secrets": 1,
+   "boss": true,
+   "spawnOk": true
+  },
+  {
+   "id": "ch12",
+   "name": "The First Crown",
+   "biome": "temple",
+   "ok": true,
+   "ms": 1,
+   "width": 236,
+   "solid": 6710,
+   "enemies": 7,
+   "decor": 39,
+   "checkpoints": 1,
+   "secrets": 1,
+   "boss": false,
+   "spawnOk": true
+  },
+  {
+   "id": "ch13",
+   "name": "The Red Silence",
+   "biome": "monastery",
+   "ok": true,
+   "ms": 1,
+   "width": 234,
+   "solid": 6795,
+   "enemies": 6,
+   "decor": 43,
+   "checkpoints": 1,
+   "secrets": 1,
+   "boss": true,
+   "spawnOk": true
+  },
+  {
+   "id": "ch14",
+   "name": "The Usurper's House",
+   "biome": "mansion",
+   "ok": true,
+   "ms": 1,
+   "width": 236,
+   "solid": 6796,
+   "enemies": 6,
+   "decor": 50,
+   "checkpoints": 1,
+   "secrets": 1,
+   "boss": true,
+   "spawnOk": true
+  },
+  {
+   "id": "chE",
+   "name": "Road Rekindled",
+   "biome": "high_forest",
+   "ok": true,
+   "ms": 2,
+   "width": 90,
+   "solid": 1162,
+   "enemies": 0,
+   "decor": 11,
+   "checkpoints": 1,
+   "secrets": 0,
+   "boss": false,
+   "spawnOk": true
+  }
+ ],
+ "errors": []
+}

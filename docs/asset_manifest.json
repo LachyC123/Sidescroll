@@ -1,0 +1,1014 @@
+{
+ "environments": {
+  "cemetery": {
+   "bg": [
+    {
+     "file": "env/cemetery/bg0.png",
+     "h": 272,
+     "w": 512
+    }
+   ],
+   "extra": {},
+   "fg": null,
+   "props": [
+    {
+     "file": "env/cemetery/props0.png",
+     "h": 416,
+     "w": 512
+    }
+   ],
+   "tiles": {
+    "file": "env/cemetery/tiles.png",
+    "h": 400,
+    "w": 400
+   }
+  },
+  "deadwind": {
+   "bg": [
+    {
+     "file": "env/deadwind/bg0.png",
+     "h": 272,
+     "w": 336
+    },
+    {
+     "file": "env/deadwind/bg1.png",
+     "h": 272,
+     "w": 336
+    },
+    {
+     "file": "env/deadwind/bg2.png",
+     "h": 272,
+     "w": 336
+    }
+   ],
+   "extra": {
+    "bones": {
+     "file": "env/deadwind/bones.png",
+     "h": 400,
+     "recovered_from_aseprite": "Assets/Bones.aseprite",
+     "w": 400
+    }
+   },
+   "fg": null,
+   "props": [
+    {
+     "file": "env/deadwind/props0.png",
+     "h": 544,
+     "w": 400
+    }
+   ],
+   "tiles": {
+    "file": "env/deadwind/tiles.png",
+    "h": 400,
+    "w": 400
+   }
+  },
+  "deep_cave": {
+   "bg": [
+    {
+     "file": "env/deep_cave/bg0.png",
+     "h": 192,
+     "w": 176
+    },
+    {
+     "file": "env/deep_cave/bg1.png",
+     "h": 192,
+     "w": 160
+    },
+    {
+     "file": "env/deep_cave/bg2.png",
+     "h": 160,
+     "w": 192
+    }
+   ],
+   "extra": {},
+   "fg": null,
+   "props": [
+    {
+     "file": "env/deep_cave/props0.png",
+     "h": 400,
+     "w": 400
+    }
+   ],
+   "tiles": {
+    "file": "env/deep_cave/tiles.png",
+    "h": 400,
+    "w": 400
+   }
+  },
+  "dusk_wood": {
+   "bg": [
+    {
+     "file": "env/dusk_wood/bg0.png",
+     "h": 384,
+     "w": 336
+    },
+    {
+     "file": "env/dusk_wood/bg1.png",
+     "h": 384,
+     "w": 336
+    },
+    {
+     "file": "env/dusk_wood/bg2.png",
+     "h": 384,
+     "w": 336
+    },
+    {
+     "file": "env/dusk_wood/bg3.png",
+     "h": 384,
+     "w": 336
+    }
+   ],
+   "extra": {},
+   "fg": null,
+   "props": [
+    {
+     "file": "env/dusk_wood/props0.png",
+     "h": 624,
+     "w": 608
+    },
+    {
+     "file": "env/dusk_wood/props1.png",
+     "h": 400,
+     "w": 400
+    },
+    {
+     "file": "env/dusk_wood/props2.png",
+     "h": 768,
+     "w": 752
+    }
+   ],
+   "tiles": {
+    "file": "env/dusk_wood/tiles.png",
+    "h": 400,
+    "w": 400
+   }
+  },
+  "fortress": {
+   "bg": [
+    {
+     "file": "env/fortress/bg0.png",
+     "h": 192,
+     "w": 336
+    },
+    {
+     "file": "env/fortress/bg1.png",
+     "h": 272,
+     "w": 336
+    }
+   ],
+   "extra": {
+    "city": {
+     "file": "env/fortress/city.png",
+     "h": 400,
+     "recovered_from_aseprite": "Tiles/city.aseprite",
+     "w": 400
+    }
+   },
+   "fg": null,
+   "props": [
+    {
+     "file": "env/fortress/props0.png",
+     "h": 320,
+     "w": 256
+    },
+    {
+     "file": "env/fortress/props1.png",
+     "h": 480,
+     "w": 560
+    }
+   ],
+   "tiles": {
+    "file": "env/fortress/tiles.png",
+    "h": 208,
+    "w": 144
+   }
+  },
+  "high_forest": {
+   "bg": [
+    {
+     "file": "env/high_forest/bg0.png",
+     "h": 272,
+     "w": 480
+    },
+    {
+     "file": "env/high_forest/bg1.png",
+     "h": 256,
+     "w": 896
+    }
+   ],
+   "extra": {
+    "tree0": {
+     "file": "env/high_forest/tree0.png",
+     "h": 1200,
+     "w": 1344
+    },
+    "tree1": {
+     "file": "env/high_forest/tree1.png",
+     "h": 1200,
+     "w": 1344
+    },
+    "tree2": {
+     "file": "env/high_forest/tree2.png",
+     "h": 1200,
+     "w": 1344
+    },
+    "tree3": {
+     "file": "env/high_forest/tree3.png",
+     "h": 1200,
+     "w": 1344
+    },
+    "tree4": {
+     "file": "env/high_forest/tree4.png",
+     "h": 1200,
+     "w": 1344
+    }
+   },
+   "fg": null,
+   "props": [
+    {
+     "file": "env/high_forest/props0.png",
+     "h": 336,
+     "w": 288
+    },
+    {
+     "file": "env/high_forest/props1.png",
+     "h": 400,
+     "w": 336
+    },
+    {
+     "file": "env/high_forest/props2.png",
+     "h": 400,
+     "w": 400
+    },
+    {
+     "file": "env/high_forest/props3.png",
+     "h": 400,
+     "w": 400
+    },
+    {
+     "file": "env/high_forest/props4.png",
+     "h": 400,
+     "w": 400
+    }
+   ],
+   "tiles": {
+    "file": "env/high_forest/tiles.png",
+    "h": 400,
+    "w": 400
+   }
+  },
+  "lost_glades": {
+   "bg": [
+    {
+     "file": "env/lost_glades/bg0.png",
+     "h": 272,
+     "w": 336
+    },
+    {
+     "file": "env/lost_glades/bg1.png",
+     "h": 272,
+     "w": 128
+    },
+    {
+     "file": "env/lost_glades/bg2.png",
+     "h": 272,
+     "w": 240
+    }
+   ],
+   "extra": {},
+   "fg": null,
+   "props": [
+    {
+     "file": "env/lost_glades/props0.png",
+     "h": 800,
+     "w": 1024
+    }
+   ],
+   "tiles": {
+    "file": "env/lost_glades/tiles.png",
+    "h": 320,
+    "w": 448
+   }
+  },
+  "mansion": {
+   "bg": [
+    {
+     "file": "env/mansion/bg0.png",
+     "h": 272,
+     "w": 192
+    }
+   ],
+   "extra": {},
+   "fg": null,
+   "props": [
+    {
+     "file": "env/mansion/props0.png",
+     "h": 480,
+     "w": 448
+    }
+   ],
+   "tiles": {
+    "file": "env/mansion/tiles.png",
+    "h": 224,
+    "w": 400
+   }
+  },
+  "mine": {
+   "bg": [
+    {
+     "file": "env/mine/bg0.png",
+     "h": 400,
+     "w": 528
+    }
+   ],
+   "extra": {},
+   "fg": {
+    "file": "env/mine/fg.png",
+    "h": 336,
+    "w": 544
+   },
+   "props": [],
+   "tiles": {
+    "file": "env/mine/tiles.png",
+    "h": 416,
+    "w": 400
+   }
+  },
+  "monastery": {
+   "bg": [
+    {
+     "file": "env/monastery/bg0.png",
+     "h": 192,
+     "recovered_from_aseprite": "Assets/Background.aseprite",
+     "w": 336
+    }
+   ],
+   "extra": {},
+   "fg": null,
+   "props": [],
+   "tiles": {
+    "file": "env/monastery/tiles.png",
+    "h": 320,
+    "w": 464
+   }
+  },
+  "prison": {
+   "bg": [
+    {
+     "file": "env/prison/bg0.png",
+     "h": 272,
+     "w": 368
+    }
+   ],
+   "extra": {},
+   "fg": null,
+   "props": [
+    {
+     "file": "env/prison/props0.png",
+     "h": 400,
+     "w": 400
+    }
+   ],
+   "tiles": {
+    "file": "env/prison/tiles.png",
+    "h": 400,
+    "w": 400
+   }
+  },
+  "purple_bay": {
+   "bg": [
+    {
+     "file": "env/purple_bay/bg0.png",
+     "h": 192,
+     "w": 336
+    },
+    {
+     "file": "env/purple_bay/bg1.png",
+     "h": 192,
+     "w": 336
+    },
+    {
+     "file": "env/purple_bay/bg2.png",
+     "h": 192,
+     "w": 336
+    },
+    {
+     "file": "env/purple_bay/bg3.png",
+     "h": 192,
+     "w": 336
+    }
+   ],
+   "extra": {},
+   "fg": null,
+   "props": [],
+   "tiles": {
+    "file": "env/purple_bay/tiles.png",
+    "h": 400,
+    "w": 304
+   }
+  },
+  "sewers": {
+   "bg": [
+    {
+     "file": "env/sewers/bg0.png",
+     "h": 272,
+     "w": 496
+    },
+    {
+     "file": "env/sewers/bg1.png",
+     "h": 144,
+     "w": 272
+    }
+   ],
+   "extra": {},
+   "fg": null,
+   "props": [
+    {
+     "file": "env/sewers/props0.png",
+     "h": 400,
+     "w": 400
+    },
+    {
+     "file": "env/sewers/props1.png",
+     "h": 400,
+     "w": 400
+    },
+    {
+     "file": "env/sewers/props2.png",
+     "h": 400,
+     "w": 400
+    }
+   ],
+   "tiles": {
+    "file": "env/sewers/tiles.png",
+    "h": 480,
+    "w": 224
+   }
+  },
+  "swamp": {
+   "bg": [],
+   "extra": {
+    "tree": {
+     "file": "env/swamp/tree.png",
+     "h": 192,
+     "recovered_from_aseprite": "Assets/Tree.aseprite",
+     "w": 176
+    }
+   },
+   "fg": null,
+   "props": [],
+   "tiles": {
+    "file": "env/swamp/tiles.png",
+    "h": 400,
+    "w": 608
+   }
+  },
+  "temple": {
+   "bg": [
+    {
+     "file": "env/temple/bg0.png",
+     "h": 384,
+     "w": 400
+    },
+    {
+     "file": "env/temple/bg1.png",
+     "h": 272,
+     "w": 192
+    }
+   ],
+   "extra": {},
+   "fg": null,
+   "props": [
+    {
+     "file": "env/temple/props0.png",
+     "h": 400,
+     "w": 400
+    }
+   ],
+   "tiles": {
+    "file": "env/temple/tiles.png",
+    "h": 288,
+    "w": 320
+   }
+  }
+ },
+ "generated_by": "tools/build_assets.py",
+ "hud": {
+  "file": "hud/base.png",
+  "h": 304,
+  "w": 432
+ },
+ "mobs": {
+  "bee": {
+   "clips": {
+    "attack": {
+     "fh": 64,
+     "file": "enemies/bee/attack.png",
+     "fps": 12,
+     "frames": 4,
+     "fw": 64,
+     "loop": false
+    },
+    "fly": {
+     "fh": 64,
+     "file": "enemies/bee/fly.png",
+     "fps": 12,
+     "frames": 4,
+     "fw": 64,
+     "loop": true
+    },
+    "hit": {
+     "fh": 64,
+     "file": "enemies/bee/hit.png",
+     "fps": 12,
+     "frames": 4,
+     "fw": 64,
+     "loop": false
+    }
+   },
+   "content_bottom": 45,
+   "pack": "high_forest"
+  },
+  "boar": {
+   "clips": {
+    "hit": {
+     "fh": 32,
+     "file": "enemies/boar/hit.png",
+     "fps": 10,
+     "frames": 6,
+     "fw": 32,
+     "loop": false
+    },
+    "idle": {
+     "fh": 32,
+     "file": "enemies/boar/idle.png",
+     "fps": 6,
+     "frames": 6,
+     "fw": 32,
+     "loop": true
+    },
+    "run": {
+     "fh": 32,
+     "file": "enemies/boar/run.png",
+     "fps": 12,
+     "frames": 9,
+     "fw": 32,
+     "loop": true
+    },
+    "walk": {
+     "fh": 32,
+     "file": "enemies/boar/walk.png",
+     "fps": 8,
+     "frames": 9,
+     "fw": 32,
+     "loop": true
+    }
+   },
+   "content_bottom": 32,
+   "pack": "high_forest"
+  },
+  "boar_warrior": {
+   "clips": {
+    "attack": {
+     "fh": 112,
+     "file": "enemies/boar_warrior/attack.png",
+     "fps": 12,
+     "frames": 8,
+     "fw": 160,
+     "loop": false
+    },
+    "dead": {
+     "fh": 96,
+     "file": "enemies/boar_warrior/dead.png",
+     "fps": 10,
+     "frames": 8,
+     "fw": 144,
+     "loop": false
+    },
+    "idle": {
+     "fh": 64,
+     "file": "enemies/boar_warrior/idle.png",
+     "fps": 6,
+     "frames": 4,
+     "fw": 96,
+     "loop": true
+    },
+    "walk": {
+     "fh": 64,
+     "file": "enemies/boar_warrior/walk.png",
+     "fps": 8,
+     "frames": 8,
+     "fw": 80,
+     "loop": true
+    }
+   },
+   "content_bottom": 64,
+   "pack": "boar_warrior"
+  },
+  "crab": {
+   "clips": {
+    "attack": {
+     "fh": 64,
+     "file": "enemies/crab/attack.png",
+     "fps": 12,
+     "frames": 10,
+     "fw": 64,
+     "loop": false
+    },
+    "dead": {
+     "fh": 64,
+     "file": "enemies/crab/dead.png",
+     "fps": 10,
+     "frames": 10,
+     "fw": 64,
+     "loop": false
+    },
+    "idle": {
+     "fh": 48,
+     "file": "enemies/crab/idle.png",
+     "fps": 6,
+     "frames": 4,
+     "fw": 64,
+     "loop": true
+    },
+    "walk": {
+     "fh": 48,
+     "file": "enemies/crab/walk.png",
+     "fps": 8,
+     "frames": 8,
+     "fw": 64,
+     "loop": true
+    }
+   },
+   "content_bottom": 36,
+   "pack": "purple_bay"
+  },
+  "skeleton": {
+   "clips": {
+    "attack": {
+     "fh": 80,
+     "file": "enemies/skeleton/attack.png",
+     "fps": 12,
+     "frames": 8,
+     "fw": 96,
+     "loop": false
+    },
+    "dead": {
+     "fh": 64,
+     "file": "enemies/skeleton/dead.png",
+     "fps": 10,
+     "frames": 8,
+     "fw": 64,
+     "loop": false
+    },
+    "hit": {
+     "fh": 64,
+     "file": "enemies/skeleton/hit.png",
+     "fps": 12,
+     "frames": 4,
+     "fw": 64,
+     "loop": false
+    },
+    "idle": {
+     "fh": 48,
+     "file": "enemies/skeleton/idle.png",
+     "fps": 6,
+     "frames": 4,
+     "fw": 32,
+     "loop": true
+    },
+    "run": {
+     "fh": 64,
+     "file": "enemies/skeleton/run.png",
+     "fps": 12,
+     "frames": 8,
+     "fw": 64,
+     "loop": true
+    },
+    "walk": {
+     "fh": 64,
+     "file": "enemies/skeleton/walk.png",
+     "fps": 8,
+     "frames": 8,
+     "fw": 64,
+     "loop": true
+    }
+   },
+   "content_bottom": 48,
+   "pack": "prison"
+  },
+  "slime": {
+   "clips": {
+    "dead": {
+     "fh": 32,
+     "file": "enemies/slime/dead.png",
+     "fps": 10,
+     "frames": 4,
+     "fw": 32,
+     "loop": false
+    },
+    "fall": {
+     "fh": 32,
+     "file": "enemies/slime/fall.png",
+     "fps": 10,
+     "frames": 8,
+     "fw": 32,
+     "loop": false
+    },
+    "idle": {
+     "fh": 32,
+     "file": "enemies/slime/idle.png",
+     "fps": 6,
+     "frames": 4,
+     "fw": 32,
+     "loop": true
+    },
+    "move": {
+     "fh": 32,
+     "file": "enemies/slime/move.png",
+     "fps": 8,
+     "frames": 4,
+     "fw": 32,
+     "loop": true
+    }
+   },
+   "content_bottom": 32,
+   "pack": "sewers"
+  },
+  "snail": {
+   "clips": {
+    "dead": {
+     "fh": 32,
+     "file": "enemies/snail/dead.png",
+     "fps": 8,
+     "frames": 12,
+     "fw": 32,
+     "loop": false
+    },
+    "hide": {
+     "fh": 32,
+     "file": "enemies/snail/hide.png",
+     "fps": 8,
+     "frames": 12,
+     "fw": 32,
+     "loop": false
+    },
+    "walk": {
+     "fh": 32,
+     "file": "enemies/snail/walk.png",
+     "fps": 6,
+     "frames": 12,
+     "fw": 32,
+     "loop": true
+    }
+   },
+   "content_bottom": 32,
+   "pack": "high_forest"
+  },
+  "wild_boar": {
+   "clips": {
+    "attack": {
+     "fh": 64,
+     "file": "enemies/wild_boar/attack.png",
+     "fps": 12,
+     "frames": 6,
+     "fw": 64,
+     "loop": false
+    },
+    "dead": {
+     "fh": 48,
+     "file": "enemies/wild_boar/dead.png",
+     "fps": 10,
+     "frames": 4,
+     "fw": 96,
+     "loop": false
+    },
+    "idle": {
+     "fh": 48,
+     "file": "enemies/wild_boar/idle.png",
+     "fps": 6,
+     "frames": 4,
+     "fw": 64,
+     "loop": true
+    },
+    "run": {
+     "fh": 64,
+     "file": "enemies/wild_boar/run.png",
+     "fps": 12,
+     "frames": 6,
+     "fw": 96,
+     "loop": true
+    },
+    "walk": {
+     "fh": 64,
+     "file": "enemies/wild_boar/walk.png",
+     "fps": 8,
+     "frames": 8,
+     "fw": 96,
+     "loop": true
+    }
+   },
+   "content_bottom": 48,
+   "pack": "wild_boar"
+  }
+ },
+ "packs": {
+  "boar_warrior": {
+   "display": "Boar Warrior",
+   "files": 24,
+   "root": "/home/user/Sidescroll/build/_source/Legacy Enemy - Boar Warrior/Legacy Enemy - Boar Warrior",
+   "terms_file": "Terms.txt",
+   "zip": "Legacy Enemy - Boar Warrior.zip"
+  },
+  "cemetery": {
+   "display": "Forgotten Cemetery",
+   "files": 19,
+   "root": "/home/user/Sidescroll/build/_source/Legacy Fantasy - Forgotten Cemetery/Legacy Fantasy - Forgotten Cemetery",
+   "terms_file": null,
+   "zip": "Legacy Fantasy - Forgotten Cemetery.zip"
+  },
+  "deadwind": {
+   "display": "Deadwind Pass",
+   "files": 24,
+   "root": "/home/user/Sidescroll/build/_source/Legacy Fantasy - Deadwind Pass/Legacy Fantasy - Deadwind Pass",
+   "terms_file": "Terms.txt",
+   "zip": "Legacy Fantasy - Deadwind Pass.zip"
+  },
+  "deep_cave": {
+   "display": "Deep Cave",
+   "files": 8,
+   "root": "/home/user/Sidescroll/build/_source/Legacy Fantasy - Deep Cave/Legacy Fantasy - Deep Cave",
+   "terms_file": "Terms.txt",
+   "zip": "Legacy Fantasy - Deep Cave.zip"
+  },
+  "dusk_wood": {
+   "display": "Dusk Woods",
+   "files": 24,
+   "root": "/home/user/Sidescroll/build/_source/Legacy Fantasy - Dusk Woods - 1.2/Legacy Fantasy - Dusk Woods",
+   "terms_file": "Autor_note.txt",
+   "zip": "Legacy Fantasy - Dusk Woods - 1.2.zip"
+  },
+  "fortress": {
+   "display": "Kingdom Fortress",
+   "files": 24,
+   "root": "/home/user/Sidescroll/build/_source/Legacy Fantasy - Kingdom Fortress - Update/Legacy Fantasy - Kingdom Fortress - Update",
+   "terms_file": "Terms.txt",
+   "zip": "Legacy Fantasy - Kingdom Fortress - Update.zip"
+  },
+  "high_forest": {
+   "display": "High Forest",
+   "files": 79,
+   "root": "/home/user/Sidescroll/build/_source/Legacy-Fantasy - High Forest 2.0/Legacy-Fantasy - High Forest 2.3",
+   "terms_file": null,
+   "zip": "Legacy-Fantasy - High Forest 2.0.zip"
+  },
+  "lost_glades": {
+   "display": "Lost Glades",
+   "files": 22,
+   "root": "/home/user/Sidescroll/build/_source/Legacy Fantay - Lost Glades/Legacy Fantay - Lost Glades",
+   "terms_file": "Terms.txt",
+   "zip": "Legacy Fantay - Lost Glades.zip"
+  },
+  "mansion": {
+   "display": "Blood Mansion",
+   "files": 21,
+   "root": "/home/user/Sidescroll/build/_source/Legacy Fantasy - Blood Mansion/Legacy Fantasy - Blood Mansion",
+   "terms_file": "Terms.txt",
+   "zip": "Legacy Fantasy - Blood Mansion.zip"
+  },
+  "mine": {
+   "display": "Lonely Mine",
+   "files": 17,
+   "root": "/home/user/Sidescroll/build/_source/Legacy Fantasy - Lonely Mine/Legacy Fantasy - Lonely Mine",
+   "terms_file": "Autor_note.txt",
+   "zip": "Legacy Fantasy - Lonely Mine.zip"
+  },
+  "monastery": {
+   "display": "Scarlet Monastery",
+   "files": 12,
+   "root": "/home/user/Sidescroll/build/_source/Legacy-Fantasy-VL.3 - Scarlet Monastery/Legacy-Fantasy-VL.3 - Scarlet Monastery",
+   "terms_file": "Autor_note.txt",
+   "zip": "Legacy-Fantasy-VL.3 - Scarlet Monastery.zip"
+  },
+  "prison": {
+   "display": "Castle Prison",
+   "files": 36,
+   "root": "/home/user/Sidescroll/build/_source/Legacy Fantasy - Castle Prison/Legacy Fantasy - Castle Prison",
+   "terms_file": "Terms.txt",
+   "zip": "Legacy Fantasy - Castle Prison.zip"
+  },
+  "purple_bay": {
+   "display": "Purple Bay",
+   "files": 30,
+   "root": "/home/user/Sidescroll/build/_source/Legacy-Fantasy-VL.3 - Purple Bay/Legacy-Fantasy-VL.3 - Purple Bay",
+   "terms_file": "Autor_note.txt",
+   "zip": "Legacy-Fantasy-VL.3 - Purple Bay.zip"
+  },
+  "sewers": {
+   "display": "Sewer Canals",
+   "files": 23,
+   "root": "/home/user/Sidescroll/build/_source/Legacy Fantasy - Sewer Canals/Legacy Fantasy - Sewer Canals",
+   "terms_file": "Terms.txt",
+   "zip": "Legacy Fantasy - Sewer Canals.zip"
+  },
+  "swamp": {
+   "display": "Muddy Swamp",
+   "files": 11,
+   "root": "/home/user/Sidescroll/build/_source/Legacy-Fantasy-VL.3 - Muddy Swamp/Legacy-Fantasy-VL.3 - Muddy Swamp",
+   "terms_file": "Autor_note.txt",
+   "zip": "Legacy-Fantasy-VL.3 - Muddy Swamp.zip"
+  },
+  "temple": {
+   "display": "Strange Temple",
+   "files": 27,
+   "root": "/home/user/Sidescroll/build/_source/Legacy-Fantasy-VL.1 - Strange Temple 0.3/Legacy-Fantasy-VL.1 - Strange Temple 0.2",
+   "terms_file": "Terms.txt",
+   "zip": "Legacy-Fantasy-VL.1 - Strange Temple 0.3.zip"
+  },
+  "wild_boar": {
+   "display": "Wild Boar",
+   "files": 21,
+   "root": "/home/user/Sidescroll/build/_source/Legacy Enemy - Wild Boar/Legacy Enemy - Wild Boar",
+   "terms_file": "Terms.txt",
+   "zip": "Legacy Enemy - Wild Boar.zip"
+  }
+ },
+ "player": {
+  "anchor": [
+   44,
+   66
+  ],
+  "cell": [
+   96,
+   80
+  ],
+  "clips": {
+   "attack1": {
+    "fh": 80,
+    "file": "player/attack1.png",
+    "fps": 14,
+    "frames": 8,
+    "fw": 96,
+    "loop": false
+   },
+   "dead": {
+    "fh": 80,
+    "file": "player/dead.png",
+    "fps": 10,
+    "frames": 8,
+    "fw": 96,
+    "loop": false
+   },
+   "hurt": {
+    "derived": true,
+    "fh": 80,
+    "file": "player/hurt.png",
+    "fps": 12,
+    "frames": 2,
+    "fw": 96,
+    "loop": false
+   },
+   "idle": {
+    "fh": 80,
+    "file": "player/idle.png",
+    "fps": 8,
+    "frames": 4,
+    "fw": 96,
+    "loop": true
+   },
+   "jump_all": {
+    "fh": 80,
+    "file": "player/jump_all.png",
+    "fps": 12,
+    "frames": 15,
+    "fw": 96,
+    "loop": false
+   },
+   "jump_end": {
+    "fh": 80,
+    "file": "player/jump_end.png",
+    "fps": 14,
+    "frames": 3,
+    "fw": 96,
+    "loop": false
+   },
+   "jump_start": {
+    "fh": 80,
+    "file": "player/jump_start.png",
+    "fps": 14,
+    "frames": 4,
+    "fw": 96,
+    "loop": false
+   },
+   "run": {
+    "fh": 80,
+    "file": "player/run.png",
+    "fps": 12,
+    "frames": 8,
+    "fw": 96,
+    "loop": true
+   }
+  }
+ }
+}

@@ -22,13 +22,32 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
-      - run: npm install
-      - run: npm run build
+
+      # The game has no build step: game/ is self-contained ES modules plus its
+      # normalised art and data. Publishing that directory as the site root is
+      # the whole deployment.
+      - name: Check the published tree is complete
+        run: |
+          set -e
+          test -f game/index.html
+          test -f game/src/main.js
+          test -f game/data/asset_manifest.json
+          test -f game/data/tilesets.json
+          test -f game/data/props.json
+          test -d game/assets/player
+          biomes=$(find game/assets/env -mindepth 1 -maxdepth 1 -type d | wc -l)
+          echo "biomes with art: $biomes"
+          test "$biomes" -eq 15
+
+      # Pages serves game/ as "/", so a path that resolves above it works
+      # locally and 404s in production. This catches that before deploying.
+      - name: Check game/ is self-contained
+        run: node tools/check_selfcontained.mjs game
+
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: game
 
   deploy:
     environment:

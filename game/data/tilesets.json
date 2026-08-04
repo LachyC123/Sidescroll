@@ -1,0 +1,754 @@
+{
+ "cemetery": {
+  "blob": {
+   "col": 2,
+   "depth": 1,
+   "row": 6,
+   "w": 7
+  },
+  "cols": 25,
+  "details": [
+   196,
+   222,
+   248,
+   332
+  ],
+  "grounded": [
+   196
+  ],
+  "image": "env/cemetery/tiles.png",
+  "roles": {
+   "body": 180,
+   "body_left": 177,
+   "body_right": 183,
+   "body_vars": [
+    178,
+    179,
+    180,
+    181,
+    182
+   ],
+   "bot": 180,
+   "bot_left": 177,
+   "bot_right": 183,
+   "cap": 155,
+   "cap_left": 152,
+   "cap_right": 158,
+   "cap_vars": [
+    152,
+    153,
+    154,
+    155,
+    156,
+    157,
+    158
+   ]
+  },
+  "rows": 25,
+  "tile": 16
+ },
+ "deadwind": {
+  "blob": {
+   "col": 0,
+   "depth": 3,
+   "row": 1,
+   "w": 5
+  },
+  "cols": 25,
+  "details": [
+   452
+  ],
+  "grounded": [
+   452
+  ],
+  "image": "env/deadwind/tiles.png",
+  "roles": {
+   "body": 77,
+   "body_left": 50,
+   "body_right": 54,
+   "body_vars": [
+    51,
+    52,
+    53,
+    76,
+    77,
+    78,
+    101,
+    102,
+    103
+   ],
+   "bot": 102,
+   "bot_left": 100,
+   "bot_right": 104,
+   "cap": 27,
+   "cap_left": 25,
+   "cap_right": 29,
+   "cap_vars": [
+    25,
+    26,
+    27,
+    28,
+    29
+   ]
+  },
+  "rows": 25,
+  "tile": 16
+ },
+ "deep_cave": {
+  "blob": {
+   "col": 0,
+   "depth": 3,
+   "row": 1,
+   "w": 5
+  },
+  "cols": 25,
+  "details": [],
+  "grounded": [],
+  "image": "env/deep_cave/tiles.png",
+  "roles": {
+   "body": 77,
+   "body_left": 50,
+   "body_right": 54,
+   "body_vars": [
+    51,
+    52,
+    53,
+    76,
+    77,
+    78,
+    101,
+    102,
+    103
+   ],
+   "bot": 102,
+   "bot_left": 100,
+   "bot_right": 104,
+   "cap": 27,
+   "cap_left": 25,
+   "cap_right": 29,
+   "cap_vars": [
+    25,
+    26,
+    27,
+    28,
+    29
+   ]
+  },
+  "rows": 25,
+  "tile": 16
+ },
+ "dusk_wood": {
+  "blob": {
+   "col": 0,
+   "depth": 1,
+   "row": 1,
+   "w": 6
+  },
+  "cols": 25,
+  "details": [],
+  "grounded": [],
+  "image": "env/dusk_wood/tiles.png",
+  "roles": {
+   "body": 53,
+   "body_left": 50,
+   "body_right": 55,
+   "body_vars": [
+    51,
+    52,
+    53,
+    54
+   ],
+   "bot": 53,
+   "bot_left": 50,
+   "bot_right": 55,
+   "cap": 28,
+   "cap_left": 25,
+   "cap_right": 30,
+   "cap_vars": [
+    25,
+    26,
+    27,
+    28,
+    29,
+    30
+   ]
+  },
+  "rows": 25,
+  "tile": 16
+ },
+ "fortress": {
+  "blob": {
+   "col": 0,
+   "depth": 4,
+   "row": 6,
+   "w": 5
+  },
+  "cols": 9,
+  "details": [
+   8
+  ],
+  "grounded": [
+   8
+  ],
+  "image": "env/fortress/tiles.png",
+  "roles": {
+   "body": 74,
+   "body_left": 63,
+   "body_right": 67,
+   "body_vars": [
+    64,
+    65,
+    66,
+    73,
+    74,
+    75,
+    82,
+    83,
+    84,
+    91,
+    92,
+    93
+   ],
+   "bot": 92,
+   "bot_left": 90,
+   "bot_right": 94,
+   "cap": 56,
+   "cap_left": 54,
+   "cap_right": 58,
+   "cap_vars": [
+    54,
+    55,
+    56,
+    57,
+    58
+   ]
+  },
+  "rows": 13,
+  "tile": 16
+ },
+ "high_forest": {
+  "blob": {
+   "col": 0,
+   "depth": 3,
+   "row": 1,
+   "w": 4
+  },
+  "cols": 25,
+  "details": [
+   67,
+   142,
+   217,
+   292
+  ],
+  "grounded": [
+   67,
+   142,
+   217,
+   292
+  ],
+  "image": "env/high_forest/tiles.png",
+  "roles": {
+   "body": 77,
+   "body_left": 50,
+   "body_right": 53,
+   "body_vars": [
+    51,
+    52,
+    76,
+    77,
+    101,
+    102
+   ],
+   "bot": 102,
+   "bot_left": 100,
+   "bot_right": 103,
+   "cap": 27,
+   "cap_left": 25,
+   "cap_right": 28,
+   "cap_vars": [
+    26,
+    27,
+    28
+   ]
+  },
+  "rows": 25,
+  "tile": 16
+ },
+ "lost_glades": {
+  "blob": {
+   "col": 4,
+   "depth": 2,
+   "row": 4,
+   "w": 4
+  },
+  "cols": 28,
+  "details": [
+   314,
+   323,
+   514,
+   545
+  ],
+  "grounded": [
+   314,
+   323,
+   514,
+   545
+  ],
+  "image": "env/lost_glades/tiles.png",
+  "roles": {
+   "body": 174,
+   "body_left": 144,
+   "body_right": 147,
+   "body_vars": [
+    145,
+    146,
+    173,
+    174
+   ],
+   "bot": 174,
+   "bot_left": 172,
+   "bot_right": 175,
+   "cap": 118,
+   "cap_left": 116,
+   "cap_right": 119,
+   "cap_vars": [
+    116,
+    117,
+    118,
+    119
+   ]
+  },
+  "rows": 20,
+  "tile": 16
+ },
+ "mansion": {
+  "blob": {
+   "col": 7,
+   "depth": 5,
+   "row": 0,
+   "w": 5
+  },
+  "cols": 25,
+  "details": [],
+  "grounded": [],
+  "image": "env/mansion/tiles.png",
+  "roles": {
+   "body": 59,
+   "body_left": 32,
+   "body_right": 36,
+   "body_vars": [
+    33,
+    34,
+    35,
+    58,
+    59,
+    60,
+    83,
+    84,
+    85,
+    108,
+    109,
+    110,
+    133,
+    134,
+    135
+   ],
+   "bot": 134,
+   "bot_left": 132,
+   "bot_right": 136,
+   "cap": 9,
+   "cap_left": 7,
+   "cap_right": 11,
+   "cap_vars": [
+    7,
+    8,
+    9,
+    10,
+    11
+   ]
+  },
+  "rows": 14,
+  "tile": 16
+ },
+ "mine": {
+  "blob": {
+   "col": 0,
+   "depth": 3,
+   "row": 1,
+   "w": 5
+  },
+  "cols": 25,
+  "details": [
+   437,
+   475,
+   476,
+   478,
+   486,
+   525,
+   526,
+   528,
+   536,
+   575,
+   576,
+   578,
+   586,
+   625,
+   626,
+   628,
+   636
+  ],
+  "grounded": [
+   475,
+   476,
+   478,
+   486,
+   525,
+   526,
+   528,
+   536,
+   575,
+   576,
+   578,
+   586,
+   625,
+   626,
+   628,
+   636
+  ],
+  "image": "env/mine/tiles.png",
+  "roles": {
+   "body": 77,
+   "body_left": 50,
+   "body_right": 54,
+   "body_vars": [
+    51,
+    52,
+    53,
+    76,
+    77,
+    78,
+    101,
+    102,
+    103
+   ],
+   "bot": 102,
+   "bot_left": 100,
+   "bot_right": 104,
+   "cap": 27,
+   "cap_left": 25,
+   "cap_right": 29,
+   "cap_vars": [
+    25,
+    26,
+    27,
+    28,
+    29
+   ]
+  },
+  "rows": 26,
+  "tile": 16
+ },
+ "monastery": {
+  "blob": {
+   "col": 0,
+   "depth": 5,
+   "row": 1,
+   "w": 5
+  },
+  "cols": 29,
+  "details": [
+   173,
+   359
+  ],
+  "grounded": [
+   359
+  ],
+  "image": "env/monastery/tiles.png",
+  "roles": {
+   "body": 89,
+   "body_left": 58,
+   "body_right": 62,
+   "body_vars": [
+    59,
+    60,
+    61,
+    88,
+    89,
+    90,
+    117,
+    118,
+    119,
+    146,
+    147,
+    148,
+    175,
+    176,
+    177
+   ],
+   "bot": 176,
+   "bot_left": 174,
+   "bot_right": 178,
+   "cap": 31,
+   "cap_left": 29,
+   "cap_right": 33,
+   "cap_vars": [
+    29,
+    30,
+    31,
+    32,
+    33
+   ]
+  },
+  "rows": 20,
+  "tile": 16
+ },
+ "prison": {
+  "blob": {
+   "col": 0,
+   "depth": 3,
+   "row": 1,
+   "w": 5
+  },
+  "cols": 25,
+  "details": [
+   257,
+   429,
+   582
+  ],
+  "grounded": [
+   257,
+   582
+  ],
+  "image": "env/prison/tiles.png",
+  "roles": {
+   "body": 77,
+   "body_left": 50,
+   "body_right": 54,
+   "body_vars": [
+    51,
+    52,
+    53,
+    76,
+    77,
+    78,
+    101,
+    102,
+    103
+   ],
+   "bot": 102,
+   "bot_left": 100,
+   "bot_right": 104,
+   "cap": 27,
+   "cap_left": 25,
+   "cap_right": 29,
+   "cap_vars": [
+    25,
+    26,
+    27,
+    28,
+    29
+   ]
+  },
+  "rows": 25,
+  "tile": 16
+ },
+ "purple_bay": {
+  "blob": {
+   "col": 0,
+   "depth": 2,
+   "row": 3,
+   "w": 4
+  },
+  "cols": 19,
+  "details": [
+   255,
+   430,
+   433
+  ],
+  "grounded": [
+   255,
+   430
+  ],
+  "image": "env/purple_bay/tiles.png",
+  "roles": {
+   "body": 97,
+   "body_left": 76,
+   "body_right": 79,
+   "body_vars": [
+    77,
+    78,
+    96,
+    97
+   ],
+   "bot": 97,
+   "bot_left": 95,
+   "bot_right": 98,
+   "cap": 59,
+   "cap_left": 57,
+   "cap_right": 60,
+   "cap_vars": []
+  },
+  "rows": 25,
+  "tile": 16
+ },
+ "sewers": {
+  "blob": {
+   "col": 0,
+   "depth": 3,
+   "row": 1,
+   "w": 5
+  },
+  "cols": 14,
+  "details": [
+   296
+  ],
+  "grounded": [
+   296
+  ],
+  "image": "env/sewers/tiles.png",
+  "roles": {
+   "body": 44,
+   "body_left": 28,
+   "body_right": 32,
+   "body_vars": [
+    29,
+    30,
+    31,
+    43,
+    44,
+    45,
+    57,
+    58,
+    59
+   ],
+   "bot": 58,
+   "bot_left": 56,
+   "bot_right": 60,
+   "cap": 16,
+   "cap_left": 14,
+   "cap_right": 18,
+   "cap_vars": [
+    14,
+    15,
+    16,
+    17,
+    18
+   ]
+  },
+  "rows": 30,
+  "tile": 16
+ },
+ "swamp": {
+  "blob": {
+   "col": 0,
+   "depth": 3,
+   "row": 1,
+   "w": 5
+  },
+  "cols": 38,
+  "details": [
+   9,
+   180,
+   278,
+   446,
+   454,
+   608,
+   689
+  ],
+  "grounded": [
+   278,
+   446,
+   454,
+   608,
+   689
+  ],
+  "image": "env/swamp/tiles.png",
+  "roles": {
+   "body": 116,
+   "body_left": 76,
+   "body_right": 80,
+   "body_vars": [
+    77,
+    78,
+    79,
+    115,
+    116,
+    117,
+    153,
+    154,
+    155
+   ],
+   "bot": 154,
+   "bot_left": 152,
+   "bot_right": 156,
+   "cap": 40,
+   "cap_left": 38,
+   "cap_right": 42,
+   "cap_vars": [
+    38,
+    39,
+    40,
+    41,
+    42
+   ]
+  },
+  "rows": 25,
+  "tile": 16
+ },
+ "temple": {
+  "blob": {
+   "col": 1,
+   "depth": 1,
+   "row": 1,
+   "w": 4
+  },
+  "cols": 20,
+  "details": [
+   168
+  ],
+  "grounded": [
+   168
+  ],
+  "image": "env/temple/tiles.png",
+  "roles": {
+   "body": 70,
+   "body_left": 70,
+   "body_right": 70,
+   "body_vars": [
+    29,
+    30,
+    31,
+    32,
+    49,
+    50,
+    51,
+    52,
+    69,
+    70,
+    71,
+    72,
+    89,
+    90,
+    91,
+    109,
+    110,
+    111,
+    112
+   ],
+   "bot": 43,
+   "bot_left": 41,
+   "bot_right": 44,
+   "cap": 23,
+   "cap_left": 21,
+   "cap_right": 24,
+   "cap_vars": [
+    21,
+    22,
+    23,
+    24
+   ]
+  },
+  "rows": 18,
+  "tile": 16
+ }
+}
