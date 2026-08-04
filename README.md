@@ -29,6 +29,14 @@ game loads its data as ES modules and `fetch`es its manifests.
 and prompts change glyph the moment you touch one. Everything is rebindable in
 Settings → Controls.
 
+**On a phone or tablet** an on-screen pad appears automatically: a four-way
+d-pad, JUMP and HIT, plus MEND, USE, BACK and pause. It drives the same action
+layer as the keyboard, so menus, prompts and gameplay all work from touch. Hold
+and slide across the pad as you would a real d-pad; multi-touch is supported, so
+you can hold a direction and tap jump. Landscape gives a much larger view and
+overlays the controls; portrait puts them below the canvas. The pad can be
+forced on or off in Settings → Touch Controls.
+
 ## What is in it
 
 | | |
@@ -90,6 +98,16 @@ falling-branch hazards, fragment quotas, the vow altar and the Chapter 5
 disarmed opening — and asserts that all 16 chapters compose with ground,
 checkpoints and decoration. It writes screenshots to `shots/`; the copies in
 `docs/evidence/` are the Section 12 gate evidence.
+
+And the mobile path, which the keyboard-driven suite above cannot reach:
+
+```sh
+node tools/verify_mobile.mjs
+```
+
+This plays the whole first-play path on emulated iPhone portrait, iPhone
+landscape and Pixel 7 using nothing but touch, and asserts the canvas and every
+control are on screen and large enough to hit.
 
 Requires `playwright` (`npm i playwright`); it uses the pre-installed Chromium
 rather than downloading one.

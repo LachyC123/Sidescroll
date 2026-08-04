@@ -58,9 +58,35 @@ await page.goto(URL, { waitUntil: 'load' });
 await page.waitForFunction(() => window.__crownless, null, { timeout: 60000 });
 check('game boots and exposes flow', true);
 
+/**
+ * Screenshot the canvas, and count how many distinct colours it holds.
+ *
+ * Taking the screenshot is not enough on its own: the boot, title and new-game
+ * screens shipped as solid black for weeks because a full-screen fade curtain
+ * was never lifted, and nothing asserted the captures had any content in them.
+ * A screen with one distinct colour is a blank screen, whatever the state
+ * machine says it is doing.
+ */
 const shot = async (name) => {
   const el = await page.$('#c');
   await el.screenshot({ path: path.join(OUT, name + '.png') });
+};
+
+/** Distinct RGB values currently on the canvas. */
+const pageColours = () => page.evaluate(() => {
+  const c = document.getElementById('c');
+  const g = c.getContext('2d');
+  const d = g.getImageData(0, 0, c.width, c.height).data;
+  const set = new Set();
+  for (let i = 0; i < d.length; i += 4) set.add((d[i] << 16) | (d[i + 1] << 8) | d[i + 2]);
+  return set.size;
+});
+
+/** Assert a screen is actually drawing something. */
+const notBlank = async (label, min = 3) => {
+  const n = await pageColours();
+  check(`${label} renders content`, n >= min, `${n} distinct colours`);
+  return n;
 };
 
 const key = async (k, ms = 60) => {
@@ -118,22 +144,26 @@ const state = () => page.evaluate(() => {
 // ---------------------------------------------------------------- boot/title
 await page.waitForTimeout(900);
 await shot('01-boot');
+await notBlank('boot');
 await key('KeyJ');
 await page.waitForTimeout(700);
 let s = await state();
 check('reaches title screen', s.screen === 'title', s.screen);
 await shot('02-title');
+await notBlank('title');
 
 // ------------------------------------------------------------------ new game
 await selectByLabel('NEW GAME');
 s = await state();
 check('opens new game screen', s.screen === 'newgame', s.screen);
 await shot('03-newgame');
+await notBlank('new game');
 
 await selectByLabel('CHOOSE A SLOT');
 s = await state();
 check('opens slot screen', s.screen === 'slots', s.screen);
 await shot('04-slots');
+await notBlank('save slots');
 
 await selectByLabel('SLOT 1');
 await page.waitForTimeout(1600);
@@ -143,6 +173,7 @@ check('chapter has geometry', s.width > 200, 'width=' + s.width);
 check('chapter has checkpoints', s.checkpoints >= 1, 'n=' + s.checkpoints);
 check('chapter has decoration', s.decor > 10, 'n=' + s.decor);
 await shot('05-ch0-start');
+await notBlank('gameplay', 30);
 
 // ------------------------------------------------------------------ movement
 const before = await state();

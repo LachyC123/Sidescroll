@@ -401,6 +401,26 @@ export class SettingsScreen {
       slider('EFFECTS', () => s.audio.sfx, (v) => s.audio.sfx = v),
       slider('AMBIENCE', () => s.audio.ambience, (v) => s.audio.ambience = v),
       { separator: true },
+      { label: 'TOUCH CONTROLS', kind: 'choice',
+        value: () => (s.video.touchControls ?? flow.touch?.isTouchDevice()) ? 'ON' : 'OFF',
+        hint: 'On-screen buttons. Defaults to on for touch devices.',
+        onChange: () => {
+          const now = s.video.touchControls ?? flow.touch?.isTouchDevice();
+          s.video.touchControls = !now;
+          flow.touch?.setEnabled(!now);
+          saveSettings();
+        },
+        onSelect: () => {
+          const now = s.video.touchControls ?? flow.touch?.isTouchDevice();
+          s.video.touchControls = !now;
+          flow.touch?.setEnabled(!now);
+          saveSettings();
+        } },
+      { label: 'INTEGER SCALING', kind: 'choice',
+        value: () => s.video.integerScale ? 'ON' : 'OFF',
+        hint: 'Crisper pixels, but can letterbox heavily on a phone.',
+        onChange: () => { s.video.integerScale = !s.video.integerScale; saveSettings(); applySettings(); },
+        onSelect: () => { s.video.integerScale = !s.video.integerScale; saveSettings(); applySettings(); } },
       { label: 'SHOW FPS', kind: 'choice', value: () => s.video.showFps ? 'ON' : 'OFF',
         onChange: () => { s.video.showFps = !s.video.showFps; saveSettings(); },
         onSelect: () => { s.video.showFps = !s.video.showFps; saveSettings(); } },
